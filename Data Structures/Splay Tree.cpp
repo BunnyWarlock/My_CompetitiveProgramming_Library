@@ -95,7 +95,7 @@ namespace splayTree{
         // Checks if the node is the root
         bool isRoot(node<T>* v) {
             if (v == NULL) return false;
-            return (v->p == NULL || (v->p->l != v && v->p->r != v));
+            return (v->parent == NULL || (v->parent->child[0] != v && v->parent->child[1] != v));
         }
         // Get the size of the tree.
         int size(){
@@ -225,6 +225,8 @@ To add a value to all elements in a range
     spt.find_range(l, r)->add(2);
 To get sum, valMin, valMax of a segment [l, r]
     spt.find_range(l, r)->valMin;
+To split up a range [l, r] use
+    node<T>* temp = spt.erase_range(y-a, y-1, true);
 */
 
 int main(){
