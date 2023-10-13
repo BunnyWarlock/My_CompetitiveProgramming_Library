@@ -154,31 +154,22 @@ namespace KDTree{
             return dist;
         }
         // Returns the nearest neighbor to the input point
-        /*void nearest(int arr[], node<k>* n, node<k>*& minNode, long long& minDist = LLONG_MAX, int depth = 0){
+        void nearest(int arr[], node<k>* n, node<k>*& minNode, long long& minDist = LLONG_MAX, int depth = 0){
             if (!n) return;
-            if (checkPoints(arr, n->point)){
-                minDist = 0;
-                minNode = n;
-                return;
-            }
-            if (!(n->left) && !(n->right)){
-                long long dist = sqrDist(n->point, arr);
-                if (minDist <= dist) return;
+            long long dist = sqrDist(n->point, arr);
+            if (minDist > dist){
                 minDist = dist;
                 minNode = n;
-                return;
             }
             unsigned cd = depth%k;
             if (arr[cd] < n->point[cd]){
                 nearest(arr, n->left, minNode, minDist, depth+1);
-                //if ((arr[cd] - n->point[cd]) * 1LL * (arr[cd] - n->point[cd]) <= minDist)
-                if (arr[cd] + sqrt(minDist) >= n->point[cd])
+                if ((arr[cd] - n->point[cd]) * 1LL * (arr[cd] - n->point[cd]) <= minDist)
                     nearest(arr, n->right, minNode, minDist, depth+1);
             }
             else{
                 nearest(arr, n->right, minNode, minDist, depth+1);
-                //if ((arr[cd] - n->point[cd]) * 1LL * (arr[cd] - n->point[cd]) <= minDist)
-                if (arr[cd] - sqrt(minDist) <= n->point[cd])
+                if ((arr[cd] - n->point[cd]) * 1LL * (arr[cd] - n->point[cd]) <= minDist)
                     nearest(arr, n->left, minNode, minDist, depth+1);
             }
         }
@@ -187,7 +178,7 @@ namespace KDTree{
             sqrdist = LLONG_MAX;
             nearest(arr, root, n, sqrdist, 0);
             return n;
-        }*/
+        }
     };
 }
 using namespace KDTree;
@@ -213,11 +204,11 @@ int main(){
     kdt.findMin(0)->print();
     kdt.findMax(1)->print();
 
-    /*cout<<endl;
-    int point3[] = {7, 12};
+    cout<<endl;
+    int point3[] = {9, 9};
     long long sqrdist;
     kdt.nearest(point3, sqrdist)->print();
-    cout<<sqrdist<<endl;*/
+    cout<<sqrdist<<endl;
 
     return 0;
 }
