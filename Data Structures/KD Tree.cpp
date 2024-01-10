@@ -1,6 +1,9 @@
 #include <iostream>
 #include <math.h>
 using namespace std;
+#define endl '\n'
+
+const long long LLONG_MAX = 1000000000000000;
 
 namespace KDTree{
     template <int k>
@@ -27,14 +30,14 @@ namespace KDTree{
     };
 
     template <int k>
-    struct tree{
+    struct KDtree{
         node<k>* root;
 
         node<k>* newNode(int arr[k]){
             node<k>* n = new node<k>(arr);
             return n;
         }
-        tree(){
+        KDtree(){
             root = nullptr;
         }
         // Helper function for deleting.
@@ -44,7 +47,7 @@ namespace KDTree{
             destroy(n->right);
             delete n;
         }
-        ~tree(){
+        ~KDtree(){
             destroy(root);
         }
         // Insert a new point to the tree.
@@ -157,6 +160,7 @@ namespace KDTree{
         void nearest(int arr[], node<k>* n, node<k>*& minNode, long long& minDist = LLONG_MAX, int depth = 0){
             if (!n) return;
             long long dist = sqrDist(n->point, arr);
+            if (!dist) dist = LLONG_MAX; // This line may or may not be included
             if (minDist > dist){
                 minDist = dist;
                 minNode = n;
@@ -186,29 +190,46 @@ using namespace KDTree;
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    cout.tie(NULL);
+    cin.exceptions(cin.failbit);
 
-    tree<2> kdt;
-    int points[][2] = {{-3, -6}, {17, 15}, {13, 15}, {6, 12},
-                        {9, 1}, {-2, -5}, {10, 19}};
-    int n = sizeof(points)/sizeof(points[0]);
-    for (int i=0; i<n; i++)
-        kdt.insert(points[i]);
+    // KDtree<2> kdt;
+    // int points[][2] = {{-3, -6}, {17, 15}, {13, 15}, {6, 12},
+    //                     {9, 1}, {-2, -5}, {10, 19}};
+    // int n = sizeof(points)/sizeof(points[0]);
+    // for (int i=0; i<n; i++)
+    //     kdt.insert(points[i]);
+    // 
+    // int point1[] = {10, 19};
+    // int point2[] = {12, 19};
+    // kdt.remove(point1);
+    // kdt.insert(point2);
+    // cout<<((kdt.search(point1))?"FOUND":"NOT FOUND")<<endl;
+    // cout<<((kdt.search(point2))?"FOUND":"NOT FOUND")<<endl;
+    // kdt.findMin(0)->print();
+    // kdt.findMax(1)->print();
+    // 
+    // cout<<endl;
+    // int point3[] = {9, 9};
+    // long long sqrdist;
+    // kdt.nearest(point3, sqrdist)->print();
+    // cout<<sqrdist<<endl;
 
-    int point1[] = {10, 19};
-    int point2[] = {12, 19};
-    kdt.remove(point1);
-    kdt.insert(point2);
-    cout<<((kdt.search(point1))?"FOUND":"NOT FOUND")<<endl;
-    cout<<((kdt.search(point2))?"FOUND":"NOT FOUND")<<endl;
-    kdt.findMin(0)->print();
-    kdt.findMax(1)->print();
+    long long t, n, i, temp;
+    cin>>t;
+    while(t--){
+      cin>>n;
+      int p[n][2];
+      KDtree<2> kdt;
+      for (i = 0; i < n; ++i){
+        cin>>p[i][0]>>p[i][1];
+        kdt.insert(p[i]);
+      }
 
-    cout<<endl;
-    int point3[] = {9, 9};
-    long long sqrdist;
-    kdt.nearest(point3, sqrdist)->print();
-    cout<<sqrdist<<endl;
+      for (i = 0; i < n; ++i){
+        kdt.nearest(p[i], temp);
+        cout<<temp<<endl;
+      }
+    }
 
     return 0;
 }
