@@ -75,7 +75,7 @@ namespace splayTree{
     };
 
     template <class T>
-    struct tree{
+    struct SPtree{
         node<T>* root;
         node<T>* dummy[2];
 
@@ -83,13 +83,13 @@ namespace splayTree{
             node<T>* n = new node<T>(val);
             return n;
         }
-        tree(){
+        SPtree(){
             dummy[0] = root = newNode();
             dummy[1] = root->child[1] = newNode();
             root->size = 2;
             root->child[1]->parent = root;
         }
-        ~tree(){
+        ~SPtree(){
             destroy(root);
         }
         // Checks if the node is the root
@@ -239,7 +239,7 @@ int main(){
     // Basically a small peek as to how to use it
     // Good Luck!
 
-    tree<int> spt;
+    SPtree<int> spt;
     cout<<spt.size()<<" *** "<<endl;
     for (int i = 0; i < 10; ++i){
         spt.insert(i);
@@ -268,7 +268,7 @@ int main(){
     int n, i, m, x, y, a;
     string s;
     cin>>n;
-    tree<int> spt1;
+    SPtree<int> spt1;
     for (i = 0; i < n; ++i){
         cin>>a;
         spt1.insert(a);
