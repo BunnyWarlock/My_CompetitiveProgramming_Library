@@ -3,7 +3,7 @@
 using namespace std;
 #define endl '\n'
 
-const long long LLONG_MAX = 1000000000000000;
+// const long long LLONG_MAX = 2000000000000000007;
 
 namespace KDTree{
     template <int k>
