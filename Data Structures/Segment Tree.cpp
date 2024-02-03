@@ -30,13 +30,13 @@ namespace segmentTree{
         }
 
         T query(int v, int tl, int tr, int l, int r){
-            if (l > r)
+            if (l > tr || r < tl)
                 return temp;
-            if (l == tl && r == tr)
+            if (l <= tl && r >= tr)
                 return arr[v];
             int tm = (tl + tr) / 2;
-            return combine(query(v+1, tl, tm, l, min(r, tm)),
-                   query(v+2*(tm-tl+1), tm+1, tr, max(l, tm+1), r));
+            return combine(query(v+1, tl, tm, l, r),
+                   query(v+2*(tm-tl+1), tm+1, tr, l, r));
         }
         T query(int l, int r){
             return query(0, 0, N-1, l, r);
