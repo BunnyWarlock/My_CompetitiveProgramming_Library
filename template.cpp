@@ -21,6 +21,7 @@ template <class ...Args> auto &print(const Args &...args)
 
 typedef long long ll;
 typedef long double ld;
+typedef unsigned long long ull;
 typedef pair<int, int> pii;
 
 int main(){
