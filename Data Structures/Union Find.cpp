@@ -1,4 +1,5 @@
-// tested here:
+// Author: Sahil Yasar
+// Tested here:
 // https://acm.timus.ru/problem.aspx?space=1&num=1671
 
 #include <iostream>
