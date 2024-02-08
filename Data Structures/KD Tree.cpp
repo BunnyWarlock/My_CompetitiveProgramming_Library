@@ -1,3 +1,5 @@
+// Author: Sahil Yasar
+
 #include <iostream>
 #include <math.h>
 using namespace std;
