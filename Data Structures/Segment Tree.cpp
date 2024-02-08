@@ -1,3 +1,5 @@
+// Author: Sahil Yasar
+
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -57,7 +59,7 @@ namespace segmentTree{
         }
 
 
-
+        // An example of how to do other stuff with segment trees using recursion
         int lower_bound(int v, int tl, int tr, T k) {
             if (k > arr[v])
                 return -1;
