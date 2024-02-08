@@ -1,3 +1,6 @@
+// Author: Sahil Yasar
+// Add or remove functionalities from the node struct depending on the problem to save memory
+
 #include <iostream>
 #include <vector>
 #include <string>
