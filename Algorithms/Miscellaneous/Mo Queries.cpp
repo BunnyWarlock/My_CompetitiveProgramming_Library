@@ -1,49 +1,47 @@
 // Author: Sahil Yasar
 // Tested here:
-// https://codeforces.com/contest/221/submission/245484164
+// https://codeforces.com/contest/221/submission/245621756
 
-// #include <bits/stdc++.h>
 #include <iostream>
 #include <algorithm>
-#include <cmath>
-#include <cstring>
+#include <vector>
+#include <numeric>
 using namespace std;
 #define endl '\n'
 
-// #include <ext/pb_ds/assoc_container.hpp>
-// #include <ext/pb_ds/tree_policy.hpp>
-// using namespace __gnu_pbds;
-// template<class T>
-// using oset = tree<T, null_type, less<T>, rb_tree_tag,
-//              tree_order_statistics_node_update>;
+int freq[100010], a[100010], cur = 0;
 
-template <class ...Args> auto &print(const Args &...args)
-{ return ((cerr<<args<<", "), ...)<<"\b\b)"<<endl; }
-#define watch(...) if(true){cerr<<"("#__VA_ARGS__") = ("; print(__VA_ARGS__);}
-#define all(x) x.begin(), x.end()
-#define rall(x) x.rbegin(), x.rend()
-#define read(arr) for(auto& x: arr) cin>>x
-#define write(arr) for(auto& x: arr) cout<<x<<" "; cout<<endl
-#define mem(x, n) memset(x, n, sizeof(x))
-
-typedef long long ll;
-typedef long double ld;
-typedef unsigned long long ull;
-typedef pair<int, int> pii;
-
-int cur, sqt, n;
-struct query{
-  int l, r, ind;
-  bool operator<(query& a){
-    return make_pair(l/sqt, r) < make_pair(a.l/sqt, a.r);
-  }
-};
-
-void mo(int freq[], int val, int del){
-  if (val > n) return;
+void add(int i){
+  int val = a[i];
+  if (val >= 100010) return;
   cur -= (freq[val] == val);
-  freq[val] += del;
-  cur += (freq[val] == val);
+  cur += (++freq[val] == val);
+}
+void del(int i){
+  int val = a[i];
+  if (val >= 100010) return;
+  cur -= (freq[val] == val);
+  cur += (--freq[val] == val);
+}
+int calc(){
+  return cur;
+}
+
+vector<int> mo(vector<pair<int, int>> q){
+  int l = 0, r = -1, blk = 350;
+  vector<int> o(q.size()), ans(q.size());
+  auto f = [&](pair<int, int>& a)
+      { return make_pair(a.first/blk, a.second^(a.first/blk & 1)); };
+  iota(o.begin(), o.end(), 0);
+  sort(o.begin(), o.end(), [&](int a, int b){ return f(q[a]) < f(q[b]); });
+  for (int& i: o){
+    while(l < q[i].first) del(l++);
+    while(r > q[i].second) del(r--);
+    while(r < q[i].second) add(++r);
+    while(l > q[i].first) add(--l);
+    ans[i] = calc();
+  }
+  return ans;
 }
 
 int main(){
@@ -51,32 +49,18 @@ int main(){
     cin.tie(NULL);
     cin.exceptions(cin.failbit);
 
-    int m, i, j;
-    cin>>n>>m;
-    sqt = sqrt(n);
-    int a[n], freq[n+1];
-    read(a);
-    mem(freq, 0);
+    int n, m, i, j;
+    cin>>n>>m;;
+    for (i = 0; i < n; ++i)
+      cin>>a[i];
 
-    query q[m];
+    vector<pair<int, int>> q(m);
     for (i = 0; i < m; ++i){
-      cin>>q[i].l>>q[i].r;
-      --q[i].l, --q[i].r;
-      q[i].ind = i;
+      cin>>q[i].first>>q[i].second;
+      --q[i].first, --q[i].second;
     }
-    sort(q, q+m);
 
-    int ans[m];
-    i = 0, j = -1, cur = 0;
-    for (auto& [l, r, ind]: q){
-      while(j < r) mo(freq, a[++j], 1);
-      while(i > l) mo(freq, a[--i], 1);
-
-      while(i < l) mo(freq, a[i++], -1);
-      while(j > r) mo(freq, a[j--], -1);
-
-      ans[ind] = cur;
-    }
+    vector<int> ans = mo(q);
     for (i = 0; i < m; ++i)
       cout<<ans[i]<<endl;
 
