@@ -13,7 +13,7 @@ using namespace std;
 //              tree_order_statistics_node_update>;
 // template <class K, class V> using ht = gp_hash_table<K, V>;
 
-template <typename T1, typename T2> ostream& operator<<(ostream& os, const pair<T1, T2>& p)
+template <class T1, class T2> ostream& operator<<(ostream& os, const pair<T1, T2>& p)
 { return os<<'('<<p.first<<", "<<p.second<<")"; }
 template <class ...Args> auto &print(const Args &...args)
 { return ((cerr<<args<<", "), ...)<<"\b\b)"<<endl; }
