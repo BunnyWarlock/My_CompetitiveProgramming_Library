@@ -14,24 +14,20 @@ struct Trie{
   TrieNode* root;
   int c;
   Trie(char c): c(c) { root = new TrieNode(); }
-  void insert(string word){
+  bool trav(string word, bool insert, bool prefix){
     TrieNode* temp = root;
     for (auto& x: word){
-      if (!temp->key[x-c])
+      if (!temp->key[x-c]){
+        if (!insert) return false;
         temp->key[x-c] = new TrieNode();
+      }
       temp = temp->key[x-c];
     }
-    temp->end = true;
+    return (insert)? temp->end = true: (prefix)? true: temp->end;
   }
-  bool search(string word, bool prefix = false){
-    TrieNode* temp = root;
-    for (auto& x: word){
-      if (!temp->key[x-c])
-        return false;
-      temp = temp->key[x-c];
-    }
-    return (prefix)? true: temp->end;
-  }
+  bool insert(string word){ return trav(word, true, false); }
+  bool search(string word, bool prefix = false)
+  { return trav(word, false, prefix); }
 };
 
 int main(){
