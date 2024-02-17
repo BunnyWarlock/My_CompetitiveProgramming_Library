@@ -1,6 +1,6 @@
 // Author: Sahil Yasar
 // Tested here:
-// https://codeforces.com/contest/221/submission/246689827
+// https://codeforces.com/contest/617/submission/246806995
 // Learn More:
 // https://codeforces.com/blog/entry/61203
 // It is ideal for problems with n = 10^6 and q = 10^4
@@ -27,36 +27,33 @@ int64_t hilbertOrder(int x, int y, int pow = 21, int rotate = 0){
 	return ans;
 }
 
-int freq[100010], a[100010], cur = 0;
+int freq[1<<20], a[100010], k;
+long long cur = 0;
 
 void add(int i){
-  int val = a[i];
-  if (val >= 100010) return;
-  cur -= (freq[val] == val);
-  cur += (++freq[val] == val);
+  cur += freq[a[i]^k];
+  ++freq[a[i]];
 }
 void del(int i){
-  int val = a[i];
-  if (val >= 100010) return;
-  cur -= (freq[val] == val);
-  cur += (--freq[val] == val);
+  --freq[a[i]];
+  cur -= freq[a[i]^k];
 }
-int calc(){
+long long calc(){
   return cur;
 }
 
-vector<int> mo(vector<pair<int, int>> q){
-  int l = 0, r = -1, blk = 350;
-  vector<int> o(q.size()), ans(q.size());
+vector<long long> mo(vector<pair<int, int>> q){
+  int l = 0, r = -1;
+  vector<long long> o(q.size()), ans(q.size());
   auto f = [&](pair<int, int>& a)
       { return hilbertOrder(a.first, a.second); };
   iota(o.begin(), o.end(), 0);
   sort(o.begin(), o.end(), [&](int a, int b){ return f(q[a]) < f(q[b]); });
-  for (int& i: o){
-    while(l < q[i].first) del(l++);
-    while(r > q[i].second) del(r--);
+  for (auto& i: o){
     while(r < q[i].second) add(++r);
     while(l > q[i].first) add(--l);
+    while(l < q[i].first) del(l++);
+    while(r > q[i].second) del(r--);
     ans[i] = calc();
   }
   return ans;
@@ -68,19 +65,22 @@ int main(){
     cin.exceptions(cin.failbit);
 
     int n, m, i, j;
-    cin>>n>>m;;
-    for (i = 0; i < n; ++i)
+    cin>>n>>m>>k;
+    for (i = 1; i <= n; ++i){
       cin>>a[i];
+      a[i] ^= a[i-1];
+    }
 
     vector<pair<int, int>> q(m);
     for (i = 0; i < m; ++i){
       cin>>q[i].first>>q[i].second;
-      --q[i].first, --q[i].second;
+      --q[i].first;// --q[i].second;
     }
 
-    vector<int> ans = mo(q);
+    vector<long long> ans = mo(q);
     for (i = 0; i < m; ++i)
       cout<<ans[i]<<endl;
 
     return 0;
 }
+
