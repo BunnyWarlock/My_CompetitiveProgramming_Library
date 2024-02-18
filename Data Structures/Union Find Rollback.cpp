@@ -1,6 +1,6 @@
 // Author: Sahil Yasar
 // Tested here:
-// https://leetcode.com/problems/process-restricted-friend-requests/submissions/1166759301
+// https://leetcode.com/problems/process-restricted-friend-requests/description/
 
 #include <vector>
 #include <stack>
