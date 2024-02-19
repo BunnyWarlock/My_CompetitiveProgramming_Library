@@ -1,5 +1,7 @@
 // Author: Sahil Yasar
 // Tested manually. Answer checked through wolfram alpha
+// Code with similar logic passed poj-The Embarrassed Cryptographer
+// http://poj.org/problem?id=2635
 
 #include <iostream>
 #include <string>
