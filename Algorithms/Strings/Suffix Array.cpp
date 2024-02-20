@@ -1,4 +1,5 @@
-// Author: Sahil Yasar
+// Author: 罗穗骞, chilli
+// Modified by: Sahil Yasar
 // Tested here:
 // https://www.spoj.com/problems/LCS/en/
 
