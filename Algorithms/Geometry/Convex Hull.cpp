@@ -1,4 +1,5 @@
-// Author: Sahil Yasar
+// Author: Stjepan Glavina, chilli
+// Modified by: Sahil Yasar
 // Tested here:
 // https://open.kattis.com/problems/convexhull
 // Description: The function outputs a polygon giving the convex hull of the input points
