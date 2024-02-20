@@ -1,4 +1,5 @@
-// Author: Sahil Yasar
+// Author: Lukas Polacek, Simon Lindholm
+// Modified by: Sahil Yasar
 // Tested here:
 // https://leetcode.com/problems/process-restricted-friend-requests/description/
 
