@@ -1,4 +1,8 @@
 // Author: Sahil Yasar
+// Tested here:
+// https://codeforces.com/gym/103997/problem/A
+// Tutorial:
+// https://zhtluo.com/cp/splay-tree-one-tree-to-rule-them-all.html
 // Add or remove functionalities from the node struct depending on the problem to save memory
 
 #include <iostream>
