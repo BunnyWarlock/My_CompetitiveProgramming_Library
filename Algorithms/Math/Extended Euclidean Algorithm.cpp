@@ -1,6 +1,6 @@
 // Author: Sahil Yasar
 // Tested here:
-// https://atcoder.jp/contests/abc340/submissions/50211564
+// https://atcoder.jp/contests/abc340/tasks/abc340_f
 
 #include <iostream>
 using namespace std;
