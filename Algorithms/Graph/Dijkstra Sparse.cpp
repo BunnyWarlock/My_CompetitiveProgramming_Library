@@ -1,6 +1,6 @@
 // Author: Sahil Yasar
 // Tested here:
-// https://atcoder.jp/contests/abc340/submissions/50191127
+// https://atcoder.jp/contests/abc340/tasks/abc340_d
 
 #include <iostream>
 #include <vector>
