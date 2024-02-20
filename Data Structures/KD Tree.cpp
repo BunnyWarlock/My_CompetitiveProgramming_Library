@@ -1,4 +1,6 @@
 // Author: Sahil Yasar
+// Tested here:
+// https://www.spoj.com/problems/FAILURE/
 
 #include <iostream>
 #include <math.h>
