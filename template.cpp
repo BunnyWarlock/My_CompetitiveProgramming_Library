@@ -21,7 +21,7 @@ template <class ...Args> auto &print(const Args &...args)
 
 #define all(x) x.begin(), x.end()
 #define rall(x) x.rbegin(), x.rend()
-#define sz(x) x.size()
+#define sz(x) (int)x.size()
 #define read(arr) for(auto& x: arr) cin>>x
 #define write(arr) for(auto& x: arr) cout<<x<<" "; cout<<endl
 // #define mem(x, n) memset(x, n, sizeof(x))
