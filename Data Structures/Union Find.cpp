@@ -1,4 +1,5 @@
-// Author: Sahil Yasar
+// Author: Lukas Polacek
+// Modified by: Sahil Yasar
 // Tested here:
 // https://acm.timus.ru/problem.aspx?space=1&num=1671
 
