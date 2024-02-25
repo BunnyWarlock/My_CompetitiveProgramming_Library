@@ -1,5 +1,5 @@
 // Author: Sahil Yasar
-// Tested on:
+// Tested here:
 // https://open.kattis.com/problems/stringmatching
 
 #include <iostream>
