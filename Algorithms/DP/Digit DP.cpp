@@ -1,5 +1,5 @@
 // Author: Sahil Yasar
-// Tested on:
+// Tested here:
 // https://lightoj.com/problem/how-many-zeroes
 
 #include <iostream>
