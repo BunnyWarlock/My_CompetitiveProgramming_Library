@@ -8,7 +8,7 @@ using namespace std;
 struct TrieNode{
     TrieNode* key[26];
     bool end = false;
-    //int countWords = 0, countPrefix = 0;
+    int countWords = 0, countPrefix = 0;
 };
 struct Trie{
 	TrieNode* root;
@@ -20,7 +20,9 @@ struct Trie{
 			if (!temp->key[x-c])
 				temp->key[x-c] = new TrieNode();
 			temp = temp->key[x-c];
+			++temp->countPrefix;
 		}
+		++temp->countWords;
 		return temp->end = true;
 	}
 	bool search(string word, bool prefix = false){
@@ -31,6 +33,17 @@ struct Trie{
 			temp = temp->key[x-c];
 		}
 		return (prefix)? true: temp->end;
+	}
+	int count(string word, bool prefix = true){
+		TrieNode* temp = root;
+		int cnt = 0;
+		for (auto& x: word){
+			if (!temp->key[x-c])
+				return false;
+			temp = temp->key[x-c];
+			cnt += (prefix)?temp->countPrefix :temp->countWords;
+		}
+		return cnt;
 	}
 };
 
