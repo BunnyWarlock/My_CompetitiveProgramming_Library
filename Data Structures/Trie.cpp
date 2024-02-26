@@ -11,27 +11,27 @@ struct TrieNode{
     //int countWords = 0, countPrefix = 0;
 };
 struct Trie{
-  TrieNode* root;
-  int c;
-  Trie(char c = 'a'): c(c) { root = new TrieNode(); }
-  bool insert(string word){
-    TrieNode* temp = root;
-    for (auto& x: word){
-      if (!temp->key[x-c])
-        temp->key[x-c] = new TrieNode();
-      temp = temp->key[x-c];
-    }
-    return temp->end = true;
-  }
+	TrieNode* root;
+	int c;
+	Trie(char c = 'a'): c(c) { root = new TrieNode(); }
+	bool insert(string word){
+		TrieNode* temp = root;
+		for (auto& x: word){
+			if (!temp->key[x-c])
+				temp->key[x-c] = new TrieNode();
+			temp = temp->key[x-c];
+		}
+		return temp->end = true;
+	}
 	bool search(string word, bool prefix = false){
-    TrieNode* temp = root;
-    for (auto& x: word){
-      if (!temp->key[x-c])
-        return false;
-      temp = temp->key[x-c];
-    }
-    return (prefix)? true: temp->end;
-  }
+		TrieNode* temp = root;
+		for (auto& x: word){
+			if (!temp->key[x-c])
+				return false;
+			temp = temp->key[x-c];
+		}
+		return (prefix)? true: temp->end;
+	}
 };
 
 int main(){
