@@ -13,7 +13,7 @@ struct TrieNode{
 struct Trie{
   TrieNode* root;
   int c;
-  Trie(char c): c(c) { root = new TrieNode(); }
+  Trie(char c = 'a'): c(c) { root = new TrieNode(); }
   bool trav(string word, bool insert, bool prefix){
     TrieNode* temp = root;
     for (auto& x: word){
