@@ -22,7 +22,7 @@ int main(){
     sort(c, c+n);
 
     auto LCM = [](int64_t a, int64_t b){
-      return (a*b)/__gcd(a, b);
+      return a/__gcd(a, b)*b;
     };
     lcm = c[0];
     for (i = 1; i < n; ++i){
