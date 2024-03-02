@@ -40,7 +40,7 @@ int main(){
   cin.tie(NULL);
   cin.exceptions(cin.failbit);
 
-  ll t, n, a, u, v, i, loop = 1;
+  ll t, n, u, v, i, loop = 1;
   cin>>t;
   while(t--){
     cin>>n;
