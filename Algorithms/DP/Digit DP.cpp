@@ -5,32 +5,35 @@
 #include <iostream>
 #include <string>
 #include <cstring>
+#include <algorithm>
 using namespace std;
 #define endl '\n'
 
 typedef long long ll;
-ll DP[12][12][2];
+ll DP[12][12][2][2];
 ll m, n;
 string num;
 
 ll digitDP(int pos, int cnt, bool tight, bool zero){
-    if (pos == num.size())
+    if (pos < 0)
         return (zero)?1 :cnt;
-    if(DP[pos][cnt][tight] != -1)
-        return DP[pos][cnt][tight];
-    ll res = 0, lim, digit;
+    ll& res = DP[pos][cnt][tight][zero];
+    if(!tight && res != -1)
+        return res;
+    res = 0;
+    int lim, digit;
     lim = (tight)?num[pos]-'0' :9;
     for (digit = 0; digit <= lim; ++digit)
-        res += digitDP(pos+1, cnt+(!zero && digit==0),
+        res += digitDP(pos-1, cnt+(!zero && digit==0),
               (tight && digit==lim), (zero && digit==0));
-    return (zero)?res :DP[pos][cnt][tight] = res;
+    return res;
 }
 
 ll solve(ll x){
     if (x < 0) return 0;
     num = to_string(x);
-    memset(DP, -1, sizeof(DP));
-    return digitDP(0, 0, 1, 1);
+    reverse(num.begin(), num.end());
+    return digitDP(num.size()-1, 0, 1, 1);
 }
 
 int main(){
@@ -38,6 +41,7 @@ int main(){
     cin.tie(NULL);
     cin.exceptions(cin.failbit);
 
+    memset(DP, -1, sizeof(DP));
     int t, loop = 1;
     cin>>t;
     while(t--){
