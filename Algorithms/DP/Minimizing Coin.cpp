@@ -1,10 +1,8 @@
 // Author: Sahil Yasar
 // Tested here:
 // https://cses.fi/problemset/task/1634/
-// Does not work in all cases
 
 #include <iostream>
-#include <algorithm>
 using namespace std;
 #define endl '\n'
 
@@ -15,23 +13,13 @@ int main(){
     cin.tie(NULL);
     cin.exceptions(cin.failbit);
 
-    int64_t n, x, i, j, k, lcm, ans;
+    int64_t n, x, i, j, k, ans;
     cin>>n>>x;
     int c[n];
     for (i = 0; i < n; ++i)
       cin>>c[i];
-    sort(c, c+n);
 
-    auto LCM = [](int64_t a, int64_t b){
-      return a/__gcd(a, b)*b;
-    };
-    lcm = c[0];
-    for (i = 1; i < n; ++i){
-      lcm = LCM(lcm, c[i]);
-      if (lcm > x) break;
-    }
-
-    k = min(lcm, x) + 1;
+    k = x + 1;
     int dp[k];
     fill(dp, dp+k, INT_MAX);
     dp[0] = 0;
@@ -40,8 +28,7 @@ int main(){
         if (i - c[j] >= 0)
           dp[i] = min(dp[i], dp[i-c[j]]+1);
 
-    ans = (x - (x%lcm))/c[n-1];
-    ans += dp[x%lcm];
+    ans = dp[x];
     if (ans >= INT_MAX) ans = -1;
     cout<<ans<<endl;
 
