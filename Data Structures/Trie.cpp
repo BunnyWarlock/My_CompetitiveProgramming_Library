@@ -14,6 +14,13 @@ struct Trie{
 	TrieNode* root;
 	int c;
 	Trie(char c = 'a'): c(c) { root = new TrieNode(); }
+	void destroy(TrieNode* n){
+		if (!n) return;
+		for (int i = 0; i < 10; ++i)
+		    destroy(n->key[i]);
+		delete n;
+	}
+	~Trie(){ destroy(root); }
 	bool insert(string word){
 		TrieNode* temp = root;
 		for (auto& x: word){
