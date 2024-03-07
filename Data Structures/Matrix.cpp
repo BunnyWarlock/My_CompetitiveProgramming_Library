@@ -90,7 +90,7 @@ int main(){
           cout<<ans.d[i][j];
         cout<<endl;
       }
-    }	
+    }
 
     return 0;
 }
