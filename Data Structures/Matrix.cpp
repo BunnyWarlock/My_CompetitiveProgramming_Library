@@ -15,13 +15,13 @@ struct Matrix {
   vector<vector<T>> d;
   int N;
   Matrix(int N): N(N), d(N, vector<T>(N, T())) {}
-  M& operator=(const M& other) {
-    if (this != &other) {
-        this->N = other.N;
-        this->d = other.d;
-    }
-    return *this;
-  }
+	M& operator=(const M& other) {
+		if (this != &other) {
+			this->N = other.N;
+			this->d = other.d;
+		}
+		return *this;
+	}
 	M operator*(const M& m) const {
 		M a(N);
 		for (int i = 0; i < N; ++i)
