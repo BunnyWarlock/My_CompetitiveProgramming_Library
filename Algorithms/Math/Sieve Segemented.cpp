@@ -37,8 +37,8 @@ int main(){
     cin.tie(NULL);
     cin.exceptions(cin.failbit);
 
-		vector<int> p = segmentedSieve();
-		cout<<p.size()<<endl;
+	vector<int> p = segmentedSieve();
+	cout<<p.size()<<endl;
 
     return 0;
 }
