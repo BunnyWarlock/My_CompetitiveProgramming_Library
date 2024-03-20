@@ -2,12 +2,15 @@
 // Produces all primes below LIM
 // LIM = 1e9, Time = 1.5s approx
 // https://ideone.com/XO6Vwx
+// Tested here:
+// https://www.spoj.com/problems/PRIME1/en/
 
 #include <iostream>
 #include <vector>
 #include <bitset>
 #include <cmath>
 #include <array>
+#include <algorithm>
 using namespace std;
 #define endl '\n'
 
@@ -33,12 +36,20 @@ vector<int> segmentedSieve() {
 }
 
 int main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cin.exceptions(cin.failbit);
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL);
+  cin.exceptions(cin.failbit);
 
-	vector<int> p = segmentedSieve();
-	cout<<p.size()<<endl;
+  vector<int> p = segmentedSieve();
+  int t, m, n, i;
+  cin>>t;
+  while(t--){
+    cin>>m>>n;
+    i = distance(p.begin(), lower_bound(p.begin(), p.end(), m));
+    for ( ; i < p.size() && p[i] <= n; ++i)
+      cout<<p[i]<<endl;
+    cout<<endl;
+  }
 
-    return 0;
+  return 0;
 }
