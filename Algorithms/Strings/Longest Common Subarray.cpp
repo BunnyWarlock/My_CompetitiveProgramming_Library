@@ -14,12 +14,8 @@ public:
             prev = 0;
             for (j = m-1; j >= 0; j--){
                 temp = dp[j];
-                if (A[i] == B[j]) {
-                    dp[j] = prev + 1;
-                    ans = max(ans, dp[j]);
-                }
-                else
-                    dp[j] = 0;
+                dp[j] = (A[i] == B[j])*(prev + 1);
+                ans = max(ans, dp[j]);
                 prev = temp;
             }
         }
