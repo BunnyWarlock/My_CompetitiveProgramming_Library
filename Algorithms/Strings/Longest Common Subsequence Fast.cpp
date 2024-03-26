@@ -1,5 +1,8 @@
+// Author: No idea
 // Tested here:
 // https://leetcode.com/problems/longest-common-subsequence/description/
+// Description: No idea
+// https://codeforces.com/blog/entry/127488
 
 #include <cstring>
 
