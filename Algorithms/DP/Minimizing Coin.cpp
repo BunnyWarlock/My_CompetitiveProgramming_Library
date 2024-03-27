@@ -1,36 +1,21 @@
 // Author: Sahil Yasar
 // Tested here:
-// https://cses.fi/problemset/task/1634/
+// https://leetcode.com/problems/coin-change/description/
 
-#include <iostream>
-using namespace std;
-#define endl '\n'
+const int64_t INF = 1e15;
 
-const int INT_MAX = 1e9;
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        int64_t dp[amount+1];
+        fill(dp, dp+amount+1, INF);
+        dp[0] = 0;
+        for (int i = 0; i < coins.size(); ++i)
+            for (int j = coins[i]; j <= amount; ++j)
+                dp[j] = min(dp[j], dp[j-coins[i]]+1);
 
-int main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cin.exceptions(cin.failbit);
-
-    int64_t n, x, i, j, k, ans;
-    cin>>n>>x;
-    int c[n];
-    for (i = 0; i < n; ++i)
-      cin>>c[i];
-
-    k = x + 1;
-    int dp[k];
-    fill(dp, dp+k, INT_MAX);
-    dp[0] = 0;
-    for (j = 0; j < n; ++j)
-      for (i = 1; i < k; ++i)
-        if (i - c[j] >= 0)
-          dp[i] = min(dp[i], dp[i-c[j]]+1);
-
-    ans = dp[x];
-    if (ans >= INT_MAX) ans = -1;
-    cout<<ans<<endl;
-
-    return 0;
-}
+        int64_t ans = dp[amount];
+        if (ans >= INT_MAX) ans = -1;
+        return ans;
+    }
+};
