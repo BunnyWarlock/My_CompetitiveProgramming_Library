@@ -1,4 +1,5 @@
 // Author: Sahil Yasar
+// Source: https://codeforces.com/blog/entry/88660
 // Tested here:
 // https://www.spoj.com/problems/LKS/ [0-1 Knapsack v-1]
 // https://atcoder.jp/contests/dp/tasks/dp_e [0-1 Knapsack v-2]
