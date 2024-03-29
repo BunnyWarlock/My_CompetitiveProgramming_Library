@@ -1,6 +1,8 @@
 // Author: chilli, c1729, Ramchandra Apte, Noam527, Simon Lindholm
 // Tested here:
 // https://www.spoj.com/problems/PON/
+// Description: Deterministic Miller-Rabin primality test
+// Guaranteed to work for numbers up to 7e18
 
 #include <iostream>
 #include <vector>
