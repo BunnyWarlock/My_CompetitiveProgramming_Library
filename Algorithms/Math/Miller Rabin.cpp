@@ -23,7 +23,7 @@ ull modpow(ull b, ull e, ull mod) {
 	return ans;
 }
 
-bool MillerRabin(ull n) {
+bool millerRabin(ull n) {
 	if (n < 2 || n % 6 % 4 != 1) return (n | 1) == 3;
 	ull A[] = {2, 325, 9375, 28178, 450775, 9780504, 1795265022},
 	    s = __builtin_ctzll(n-1), d = n >> s;
@@ -45,7 +45,7 @@ int main(){
 	cin>>t;
 	while(t--){
 		cin>>n;
-		cout<<((MillerRabin(n))?"YES":"NO")<<endl;
+		cout<<((millerRabin(n))?"YES":"NO")<<endl;
 	}
 
     return 0;
