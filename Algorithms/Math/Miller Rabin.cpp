@@ -5,7 +5,6 @@
 // Guaranteed to work for numbers up to 7e18
 
 #include <iostream>
-#include <vector>
 using namespace std;
 #define endl '\n'
 
