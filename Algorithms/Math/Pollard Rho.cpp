@@ -8,11 +8,8 @@
 using namespace std;
 #define endl '\n'
 
-typedef long long ll;
-typedef unsigned long long ull;
-// typedef __int128_t i128;
-// typedef __uint128_t u128;
-typedef pair<int, int> pii;
+typedef long long ll; // __int128_t
+typedef unsigned long long ull; // __uint128_t
 
 ull modmul(ull a, ull b, ull M) {
 	ll ret = a * b - M * ull(1.L / M * a * b);
