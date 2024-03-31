@@ -36,28 +36,15 @@ bool millerRabin(ull n) {
 	return 1;
 }
 
-ull gcd(ull a, ull b) {
-    if (!a || !b)
-        return a | b;
-    unsigned shift = __builtin_ctzll(a | b);
-    a >>= __builtin_ctzll(a);
-    do {
-        b >>= __builtin_ctzll(b);
-        if (a > b) swap(a, b);
-        b -= a;
-    } while (b);
-    return a << shift;
-}
-
 ull pollard(ull n) {
 	auto f = [n](ull x) { return modmul(x, x, n) + 1; };
 	ull x = 0, y = 0, t = 30, prd = 2, i = 1, q;
-	while (t++ % 40 || gcd(prd, n) == 1) {
+	while (t++ % 40 || __gcd(prd, n) == 1) {
 		if (x == y) x = ++i, y = f(x);
 		if ((q = modmul(prd, max(x,y) - min(x,y), n))) prd = q;
 		x = f(x), y = f(f(y));
 	}
-	return gcd(prd, n);
+	return __gcd(prd, n);
 }
 vector<ull> factor(ull n) {
 	if (n == 1) return {};
