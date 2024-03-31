@@ -1,6 +1,9 @@
 // Aurthor: chilli, SJTU, pajenegod, c1729, Ramchandra Apte, Noam527, Simon Lindholm
 // Tested here:
 // https://vjudge.net/contest/237942#problem/F
+// Description: Pollard-rho randomized factorization algorithm. Returns prime
+// factors of a number, in arbitrary order.
+// O(n^(1/4)), less for numbers with small factors
 
 #include <iostream>
 #include <vector>
