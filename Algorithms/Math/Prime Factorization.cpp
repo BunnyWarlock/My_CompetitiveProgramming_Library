@@ -7,6 +7,8 @@
 #include <vector>
 #include <bitset>
 #include <map>
+#include <algorithm>
+#include <cmath>
 using namespace std;
 #define endl '\n'
 
@@ -48,15 +50,14 @@ vector<pii> primeFactorization(int x){
   return v;
 }
 
-void solve(vector<pii>& pf, ull& ans, ull a, ull curDiv = 1, int i = 0){
-    if (i == pf.size() || curDiv > a){
-		if (curDiv > a)
-	        ans = min(ans, curDiv);
+void genDiv(vector<pii>& pf, vector<ull>& div, ull curDiv = 1, int i = 0){
+    if (i == pf.size()){
+        div.push_back(curDiv);
         return;
     }
     ull j, k = 1;
     for (j = 0; j <= pf[i].second; ++j){
-        solve(pf, ans, a, curDiv*k, i+1);
+        genDiv(pf, div, curDiv*k, i+1);
         k *= pf[i].first;
     }
 }
@@ -67,7 +68,7 @@ int main(){
     cin.exceptions(cin.failbit);
 
     sieve();
-    ull t, a, i, ans;
+    ull t, a, i, j, ans;
     map<ll, ll> memo;
     cin>>t;
     while(t--){
@@ -78,11 +79,16 @@ int main(){
         }
 
         vector<pii> pf = primeFactorization(a);
-        for (i = 0; i < pf.size(); ++i)
-            pf[i].second += pf[i].second;
-
+        vector<ull> div;
+        genDiv(pf, div);
+        sort(div.begin(), div.end());
         ans = a*a;
-		    solve(pf, ans, a);
+        i = distance(div.begin(), lower_bound(div.begin(), div.end(), sqrt(a)));
+        for ( ; i < div.size(); ++i){
+            j = *upper_bound(div.begin(), div.end(), a/div[i]);
+            ans = min(ans, j*div[i]);
+        }
+
         memo[a] = ans-a;
         cout<<ans-a<<endl;
     }
