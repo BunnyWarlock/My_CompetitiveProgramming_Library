@@ -73,27 +73,27 @@ int main(){
     cin.tie(NULL);
     cin.exceptions(cin.failbit);
 
-		ll n, i, ans, temp;
-		cin>>n;
-		ll a[n], ind[n];
-		for (i = 0; i < n; ++i)
-			cin>>a[i];
-	
-		FT<ll> s(n, [](ll a, ll b){ return (a+b)%MOD; }, 0LL);
-	
-		iota(ind, ind+n, 0);
-		sort(ind, ind+n, [&](ll& x, ll& y){
-			return make_pair(a[x], x) < make_pair(a[y], y);
-		});
-	
-		ans = 0;
-		temp = modpow(2, MOD-2, MOD);
-		for (auto x: ind){
-			i = s.query(x-1);
-			ans = (ans + i*modpow(2, x, MOD)) % MOD;
-			s.update(x, modpow(temp, x+1, MOD));
-		}
-		cout<<ans<<endl;
+	ll n, i, ans, temp;
+	cin>>n;
+	ll a[n], ind[n];
+	for (i = 0; i < n; ++i)
+		cin>>a[i];
+
+	FT<ll> s(n, [](ll a, ll b){ return (a+b)%MOD; }, 0LL);
+
+	iota(ind, ind+n, 0);
+	sort(ind, ind+n, [&](ll& x, ll& y){
+		return make_pair(a[x], x) < make_pair(a[y], y);
+	});
+
+	ans = 0;
+	temp = modpow(2, MOD-2, MOD);
+	for (auto x: ind){
+		i = s.query(x-1);
+		ans = (ans + i*modpow(2, x, MOD)) % MOD;
+		s.update(x, modpow(temp, x+1, MOD));
+	}
+	cout<<ans<<endl;
 
     return 0;
 }
