@@ -74,6 +74,31 @@ int main(){
 			// Basically does integer FFT
 			cout<<(long long)(round(ans[i]))<<" ";
 		cout<<endl;
+
+
+		// cin>>n;
+		// ++n;
+		// k = 1 << (32 - __builtin_clz(n-1));
+		// k <<= 1;
+		// vector<C> a(k), b(k);
+		// for (i = 0; i < n; ++i){
+		// 	cin>>j;
+		// 	a[i] = j;
+		// }
+		// for (i = 0; i < n; ++i){
+		// 	cin>>j;
+		// 	b[i] = j;
+		// }
+		// 
+		// fft(a);
+		// fft(b);
+		// for (i = 0; i < k; ++i)
+		// 	a[i] *= b[i];
+		// ifft(a);
+		// for (i = 0; i < n+n-1; ++i)
+		// 	// Basically does integer FFT
+		// 	cout<<(long long)(round(a[i].real()))<<" ";
+		// cout<<endl;
 	}
 
     return 0;
