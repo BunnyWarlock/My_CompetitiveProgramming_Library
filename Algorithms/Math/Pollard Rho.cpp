@@ -49,6 +49,7 @@ ull pollard(ull n) {
 	}
 	return __gcd(prd, n);
 }
+
 vector<ull> factor(ull n) {
 	if (n == 1) return {};
 	if (millerRabin(n)) return {n};
