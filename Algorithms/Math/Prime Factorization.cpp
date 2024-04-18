@@ -1,7 +1,7 @@
 // Author: Sahil Yasar
 // Tested here:
 // https://codeforces.com/gym/104822/problem/I
-// O(sqrt(n) / ln(n))
+// Time: O(sqrt(n) / ln(n))
 
 #include <iostream>
 #include <vector>
