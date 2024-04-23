@@ -36,10 +36,10 @@ int main(){
     ll t, n, k, i, r, c, ans;
 
     ifac[0] = fac[0] = 1;
-	for(int i = 1; i < MAX; i++)
+	for(i = 1; i < MAX; i++)
         fac[i] = (fac[i - 1] * i) % MOD;
 	ifac[MAX - 1] = powMod(fac[MAX - 1], MOD-2, MOD);
-	for(int i = MAX - 2; i; i--)
+	for(i = MAX - 2; i; i--)
         ifac[i] = (ifac[i + 1] * (i + 1)) % MOD;
 
     cin>>t;
