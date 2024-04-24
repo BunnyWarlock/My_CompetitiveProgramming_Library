@@ -1,5 +1,6 @@
 // Author: CodingKnight
 // Source: https://codeforces.com/blog/entry/75044?#comment-747656
+// Does not work in Codeforces :(
 
 #include <string>
 #include <algorithm>
