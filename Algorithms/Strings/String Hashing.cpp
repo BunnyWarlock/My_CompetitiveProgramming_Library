@@ -1,4 +1,5 @@
 // Author: Simon Lindholm
+// Modified by: Sahil Yasar
 // Tested here:
 // https://www.spoj.com/problems/NHAY/
 // https://open.kattis.com/problems/hashing
@@ -67,19 +68,27 @@ void init(){
 	// assert((ull)(H(1)*2+1-3) == 0);
 }
 
+vector<int> robinKarp(string text, string pattern){
+	vector<int> ind;
+	vector<H> hashes = getHashes(text, pattern.size());
+	ull h = (ull)hashString(pattern);
+	for (int i = 0; i < hashes.size(); ++i)
+		if ((ull)hashes[i] == h)
+			ind.push_back(i);
+	return ind;
+}
+
 int main(){
     cin.tie(0)->sync_with_stdio(0);
     cin.exceptions(cin.failbit);
 
 	init();
-	/*int n, i;
-	string p, t; // patern, text
+	/*int n;
+	string p, t;
 	while(cin>>n>>p>>t){
-		vector<H> hashes = getHashes(t, n);
-		ull h = (ull)hashString(p);
-		for (i = 0; i < hashes.size(); ++i)
-			if ((ull)hashes[i] == h)
-				cout<<i<<endl;
+		vector<int> ans = robinKarp(t, p);
+		for (auto& x: ans)
+			cout<<x<<endl;
 		cout<<endl;
 	}*/
 
