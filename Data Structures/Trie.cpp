@@ -46,7 +46,7 @@ struct Trie{
 		int cnt = 0;
 		for (auto& x: word){
 			if (!temp->key[x-c])
-				return false;
+				return cnt;
 			temp = temp->key[x-c];
 			cnt += (prefix)?temp->countPrefix :temp->countWords;
 		}
