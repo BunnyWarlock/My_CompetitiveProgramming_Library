@@ -61,11 +61,23 @@ H hashString(string& s){
 	return h;
 }
 
+vector<H> pw;
+const int MAX = 2e5 + 10;
+
 void init(){
 	timeval tp;
 	gettimeofday(&tp, 0);
 	C = (int)tp.tv_usec; // (less than modulo)
 	// assert((ull)(H(1)*2+1-3) == 0);
+
+    pw.resize(MAX);
+    pw[0] = 1;
+    for (int i = 1; i < MAX; ++i)
+        pw[i] = pw[i-1] * C;
+}
+
+H concatHash(H a, H b, int len){
+    return a*pw[len] + b;
 }
 
 vector<int> robinKarp(string text, string pattern){
