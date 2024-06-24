@@ -80,6 +80,10 @@ H concatHash(H a, H b, int len){
     return a*pw[len] + b;
 }
 
+void pointUpdateHash(H& a, string& s, char c, int i){
+    a = a + pw[s.size()-1-i]*(c-s[i]);
+}
+
 vector<int> robinKarp(string text, string pattern){
 	vector<int> ind;
 	vector<H> hashes = getHashes(text, pattern.size());
