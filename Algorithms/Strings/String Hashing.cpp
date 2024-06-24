@@ -29,13 +29,13 @@ struct A {
 };
 typedef A<1000000007, A<1000000009, unsigned>> H;
 
+vector<H> pw;
+
 struct HashInterval {
-	vector<H> ha, pw;
-	HashInterval(string& str) : ha(str.size()+1), pw(ha) {
-		pw[0] = 1;
+	vector<H> ha;
+	HashInterval(string& str) : ha(str.size()+1){
 		for (int i = 0; i < str.size(); ++i)
-			ha[i+1] = ha[i] * C + str[i],
-			pw[i+1] = pw[i] * C;
+			ha[i+1] = ha[i] * C + str[i];
 	}
 	H hashInterval(int a, int b) { // hash [a, b)
 		return ha[b] - ha[a] * pw[b - a];
@@ -45,12 +45,12 @@ struct HashInterval {
 // Get hash of all substring in str of a specific length
 vector<H> getHashes(string& str, int length) {
 	if (str.size() < length) return {};
-	H h = 0, pw = 1;
+	H h = 0;
 	for (int i = 0; i < length; ++i)
-		h = h * C + str[i], pw = pw * C;
+		h = h * C + str[i];
 	vector<H> ret = {h};
 	for (int i = length; i < str.size(); ++i)
-		ret.push_back(h = h * C + str[i] - pw * str[i-length]);
+		ret.push_back(h = h * C + str[i] - pw[length] * str[i-length]);
 	return ret;
 }
 
@@ -61,10 +61,7 @@ H hashString(string& s){
 	return h;
 }
 
-vector<H> pw;
-const int MAX = 2e5 + 10;
-
-void init(){
+void init(const int MAX = 3e5 + 10){
 	timeval tp;
 	gettimeofday(&tp, 0);
 	C = (int)tp.tv_usec; // (less than modulo)
@@ -96,19 +93,19 @@ vector<int> robinKarp(string text, string pattern){
 
 int main(){
     cin.tie(0)->sync_with_stdio(0);
-    cin.exceptions(cin.failbit);
+    // cin.exceptions(cin.failbit);
 
 	init();
-	/*int n;
+	int n;
 	string p, t;
 	while(cin>>n>>p>>t){
 		vector<int> ans = robinKarp(t, p);
 		for (auto& x: ans)
 			cout<<x<<endl;
 		cout<<endl;
-	}*/
+	}
 
-	int q, l, r;
+	/*int q, l, r;
 	string s;
 	cin>>s;
 	HashInterval hash(s);
@@ -116,7 +113,7 @@ int main(){
 	while(q--){
 		cin>>l>>r;
 		cout<<(ull)hash.hashInterval(l, r)<<endl;
-	}
+	}*/
 
     return 0;
 }
