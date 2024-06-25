@@ -64,15 +64,15 @@ H hashString(string& s){
 	return h;
 }
 
-void init(const int MAX = 3e5 + 10){
+void init(int max = 3e5 + 10){
 	timeval tp;
 	gettimeofday(&tp, 0);
 	C = (int)tp.tv_usec; // (less than modulo)
 	// assert((ull)(H(1)*2+1-3) == 0);
 
-    pw.resize(MAX);
+    pw.resize(max);
     pw[0] = 1;
-    for (int i = 1; i < MAX; ++i)
+    for (int i = 1; i < max; ++i)
         pw[i] = pw[i-1] * C;
 }
 
