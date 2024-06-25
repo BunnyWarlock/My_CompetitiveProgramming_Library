@@ -34,6 +34,7 @@ vector<H> pw;
 
 struct HashInterval {
 	vector<H> ha;
+    HashInterval(){}
 	HashInterval(string& str) : ha(str.size()+1){
 		for (int i = 0; i < str.size(); ++i)
 			ha[i+1] = ha[i] * C + str[i];
@@ -92,19 +93,33 @@ vector<int> robinKarp(string text, string pattern){
 	return ind;
 }
 
+struct PalindromeHash{
+    HashInterval f, r;
+    int n;
+    PalindromeHash(string str): f(str), n(str.size()){
+        reverse(str.begin(), str.end());
+        r = HashInterval(str);
+    }
+    H HashF(int a, int b){ return f.hashInterval(a, b); } // hash [a, b)
+    H HashR(int a, int b){ return r.hashInterval(n-b, n-a); } // hash [a, b)
+    bool isPalindrome(int a, int b){ // checks [a, b)
+        return (ull)HashF(a, b) == (ull)HashR(a, b);
+    }
+};
+
 int main(){
     cin.tie(0)->sync_with_stdio(0);
-    // cin.exceptions(cin.failbit);
+    cin.exceptions(cin.failbit);
 
 	init();
-	int n;
+	/*int n;
 	string p, t;
 	while(cin>>n>>p>>t){
 		vector<int> ans = robinKarp(t, p);
 		for (auto& x: ans)
 			cout<<x<<endl;
 		cout<<endl;
-	}
+	}*/
 
 	/*int q, l, r;
 	string s;
@@ -115,6 +130,56 @@ int main(){
 		cin>>l>>r;
 		cout<<(ull)hash.hashInterval(l, r)<<endl;
 	}*/
+
+	int n, ans, i, j, first, last, mid;
+    cin>>n;
+    string s[n];
+    vector<PalindromeHash> r;
+    vector<PalindromeHash> c;
+    for (i = 0; i < n; ++i){
+        cin>>s[i];
+        PalindromeHash a(s[i]);
+        r.emplace_back(a);
+    }
+    for (j = 0; j < n; ++j){
+        string temp = "";
+        for (i = 0; i < n; ++i)
+            temp += s[i][j];
+        PalindromeHash a(temp);
+        c.emplace_back(a);
+    }
+
+    auto check = [&](int x){
+        for (int i = 0; i <= n-x; ++i)
+            for (int j = 0; j <= n-x; ++j){
+                bool temp = true;
+                for (int k = i; k < i+x; ++k)
+                    temp &= r[k].isPalindrome(j, j+x);
+                for (int k = j; k < j+x; ++k)
+                    temp &= c[k].isPalindrome(i, i+x);
+                if (temp)
+                    return true;
+            }
+        return false;
+    };
+
+    ans = 0;
+    for (int p: {0, 1}){
+        first = 1, last = n;
+        first += (first%2 != p);
+        last -= (last%2 != p);
+        while(first <= last){
+            mid = (first+last)/2;
+            mid += (mid%2 != p);
+            if (check(mid)){
+                ans = max(ans, mid);
+                first = mid+2;
+            }
+            else
+                last = mid-2;
+        }
+    }
+    cout<<ans<<endl;
 
     return 0;
 }
