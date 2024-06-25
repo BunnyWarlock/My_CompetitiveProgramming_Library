@@ -1,13 +1,14 @@
-// Author: Simon Lindholm
-// Modified by: Sahil Yasar
+// Author: Simon Lindholm, Sahil Yasar
 // Tested here:
 // https://www.spoj.com/problems/NHAY/
 // https://open.kattis.com/problems/hashing
+// https://www.spoj.com/problems/PLSQUARE/
 
 #include <iostream>
 #include <sys/time.h>
 #include <vector>
 #include <string>
+#include <algorithm>
 using namespace std;
 #define endl '\n'
 
