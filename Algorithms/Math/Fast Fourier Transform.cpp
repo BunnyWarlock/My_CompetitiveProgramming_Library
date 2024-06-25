@@ -3,6 +3,7 @@
 // Tested here:
 // https://www.spoj.com/problems/POLYMUL/
 // String Matching: https://cses.fi/paste/b3358ae28d692f5688c82b/
+// String Matching Wildcards: https://vjudge.net/solution/52090268/zKzYQ16IL9ZyxliC3K6P
 
 #include <iostream>
 #include <vector>
