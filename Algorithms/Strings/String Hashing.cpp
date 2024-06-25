@@ -28,6 +28,7 @@ struct A {
 	bool operator<(A o) const { return (ull)*this < (ull)o; }
 };
 typedef A<1000000007, A<1000000009, unsigned>> H;
+// typedef A<1000000007, unsigned> H; // Use this for single hashing
 
 vector<H> pw;
 
