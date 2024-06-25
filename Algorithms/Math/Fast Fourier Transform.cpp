@@ -2,6 +2,7 @@
 // Modified by: Sahil Yasar
 // Tested here:
 // https://www.spoj.com/problems/POLYMUL/
+// String Matching: https://cses.fi/paste/b3358ae28d692f5688c82b/
 
 #include <iostream>
 #include <vector>
