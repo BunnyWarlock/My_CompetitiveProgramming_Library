@@ -49,7 +49,7 @@ namespace segmentTreeHash{
 
         void build(int v, int tl, int tr){
             if (tl == tr){
-                arr[v] = pw[0] * S[tl];
+                arr[v] = S[tl];
                 return;
             }
             int tm = (tl + tr) / 2;
@@ -78,8 +78,7 @@ namespace segmentTreeHash{
 
         void update(int v, int tl, int tr, int pos, char c){
             if (tl == tr){
-                S[pos] = c;
-                arr[v] = pw[0] * c;
+                arr[v] = S[pos] = c;
                 return;
             }
             int tm = (tl + tr) / 2;
