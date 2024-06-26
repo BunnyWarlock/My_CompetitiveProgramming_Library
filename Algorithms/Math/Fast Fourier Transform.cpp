@@ -2,7 +2,6 @@
 // Modified by: Sahil Yasar
 // Tested here:
 // https://www.spoj.com/problems/POLYMUL/
-// String Matching Wildcards: https://vjudge.net/solution/52090268/zKzYQ16IL9ZyxliC3K6P
 
 #include <iostream>
 #include <vector>
@@ -79,6 +78,34 @@ vector<int> stringMatch(string& s1, string& s2){
         cur -= a[i-s2.length()]*a[i-s2.length()];
         cur += a[i]*a[i];
         ans.push_back(val + cur - 2*(long long)round(temp[i]));
+    }
+    return ans;
+}
+
+// Returns an array of \sum_{j=0}^{m-1}P[j]T[i+j](P[j] - T[i + j])^2
+// where m is the length of w
+vector<int> stringMatchWildcard(string& t, string& w){
+    long long i, temp;
+    vd t1(t.size()), t2(t.size()), t3(t.size());
+    for (i = 0; i < t.size(); ++i){
+        t1[i] = (t[i]!='?') * (t[i]-'a'+1);
+        t2[i] = t1[i] * t1[i];
+        t3[i] = t2[i] * t1[i];
+    }
+    vd w1(w.size()), w2(w.size()), w3(w.size());
+    for (i = 0; i < w.size(); ++i){
+        w1[i] = (w[w.size()-1-i]!='?') * (w[w.size()-1-i]-'a'+1);
+        w2[i] = w1[i] * w1[i];
+        w3[i] = w2[i] * w1[i];
+    }
+
+    vd t1w3 = conv(t1, w3);
+    vd t2w2 = conv(t2, w2);
+    vd t3w1 = conv(t3, w1);
+    vector<int> ans;
+    for (i = w.size()-1; i < t.size(); ++i){
+        temp = (long long)round(t1w3[i]) - 2*(long long)round(t2w2[i]) + (long long)round(t3w1[i]);
+        ans.push_back(temp);
     }
     return ans;
 }
