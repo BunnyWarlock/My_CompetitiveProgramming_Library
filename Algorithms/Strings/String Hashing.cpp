@@ -76,8 +76,8 @@ void init(int max = 3e5 + 10){
         pw[i] = pw[i-1] * C;
 }
 
-H concatHash(H a, H b, int len){
-    return a*pw[len] + b;
+H concatHash(H str1, H str2, int len2){
+    return str1*pw[len2] + str2;
 }
 
 void pointUpdateHash(H& a, string& s, char c, int i){
