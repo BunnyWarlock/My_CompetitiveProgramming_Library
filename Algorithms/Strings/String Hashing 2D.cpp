@@ -43,9 +43,9 @@ struct Hash2D{
     Hash2D(){}
     Hash2D(vector<string>& s){
         n = (int)s.size(), m = (int)s[0].size();
-        p1.resize(n+1); p1[0] = 1;
-        p2.resize(m+1); p2[0] = 1;
-        for (int i = 1; i <= n; ++i) p1[i] = p1[i-1] * C1;
+        p1.resize(m+1); p1[0] = 1;
+        p2.resize(n+1); p2[0] = 1;
+        for (int i = 1; i <= m; ++i) p1[i] = p1[i-1] * C1;
         for (int i = 1; i <= n; ++i) p2[i] = p2[i-1] * C2;
 
         hs.assign(n+1, vector<H>(m+1));
