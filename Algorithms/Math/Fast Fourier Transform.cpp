@@ -129,5 +129,13 @@ int main(){
 		// cout<<endl;
 	}
 
+	/*string s1, s2;
+    cin>>s1>>s2;
+    vector<int> ans = stringMatch(s1, s2);
+    int cnt = 0;
+    for (auto x: ans)
+	cnt += (x == 0);
+	cout<<cnt<<endl;*/
+
     return 0;
 }
