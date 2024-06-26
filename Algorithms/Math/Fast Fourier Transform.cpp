@@ -2,7 +2,6 @@
 // Modified by: Sahil Yasar
 // Tested here:
 // https://www.spoj.com/problems/POLYMUL/
-// String Matching: https://cses.fi/paste/b3358ae28d692f5688c82b/
 // String Matching Wildcards: https://vjudge.net/solution/52090268/zKzYQ16IL9ZyxliC3K6P
 
 #include <iostream>
@@ -55,6 +54,33 @@ vd conv(const vd& a, const vd& b) {
 	fft(out);
 	for (int i = 0; i < res.size(); ++i) res[i] = imag(out[i]) / (4 * n);
 	return res;
+}
+
+// Returns an array of \sum_{j=0}^{m-1}(P[j] - T[i + j])^2
+// where m is the length of s2
+vector<int> stringMatch(string& s1, string& s2){
+    long long i, j, cur, val;
+    vd a(s1.length()), b(s2.length()), temp;
+    for (j = 0; j < s1.length(); ++j)
+        a[j] = s1[j] - 'a' + 1;
+    val = 0;
+    for (j = 0; j < s2.length(); ++j){
+        b[j] = s2[s2.length()-1-j] - 'a' + 1;
+        val += b[j]*b[j];
+    }
+    temp = conv(a, b);
+
+    cur = 0;
+    vector<int> ans;
+    for (i = 0; i < s2.length(); ++i)
+        cur += a[i]*a[i];
+    ans.push_back(val + cur - 2*(long long)round(temp[i-1]));
+    for ( ; i < s1.length(); ++i){
+        cur -= a[i-s2.length()]*a[i-s2.length()];
+        cur += a[i]*a[i];
+        ans.push_back(val + cur - 2*(long long)round(temp[i]));
+    }
+    return ans;
 }
 
 int main(){
