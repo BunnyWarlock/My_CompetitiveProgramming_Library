@@ -84,17 +84,17 @@ vector<int> stringMatch(string& s1, string& s2){
 
 // Returns an array of \sum_{j=0}^{m-1}P[j]T[i+j](P[j] - T[i + j])^2
 // where m is the length of w
-vector<int> stringMatchWildcard(string& t, string& w){
+vector<int> stringMatchWildcard(string& t, string& w, char c = '?'){
     long long i, temp;
     vd t1(t.size()), t2(t.size()), t3(t.size());
     for (i = 0; i < t.size(); ++i){
-        t1[i] = (t[i]!='?') * (t[i]-'a'+1);
+        t1[i] = (t[i]!=c) * (t[i]-'a'+1);
         t2[i] = t1[i] * t1[i];
         t3[i] = t2[i] * t1[i];
     }
     vd w1(w.size()), w2(w.size()), w3(w.size());
     for (i = 0; i < w.size(); ++i){
-        w1[i] = (w[w.size()-1-i]!='?') * (w[w.size()-1-i]-'a'+1);
+        w1[i] = (w[w.size()-1-i]!=c) * (w[w.size()-1-i]-'a'+1);
         w2[i] = w1[i] * w1[i];
         w3[i] = w2[i] * w1[i];
     }
