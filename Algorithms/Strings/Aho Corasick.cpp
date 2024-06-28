@@ -22,6 +22,7 @@ struct AhoCorasick {
 		// (nmatches is optional)
 		int back, next[alpha], start = -1, end = -1; // nmatches = 0;
         // next contains the next node along with the failure links of each node
+        // end contains the index of the pattern which ends at that node or -1 otherwise
 		Node(int v) { memset(next, v, sizeof(next)); }
 	};
 	vector<Node> N;
