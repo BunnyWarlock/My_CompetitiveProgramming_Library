@@ -82,7 +82,7 @@ struct AhoCorasick {
 	vector<vector<int>>findAll(vector<string>& pat, string& word) {
 		vector<int> r = find(word);
 		vector<vector<int>> res(word.size());
-		// vector<int> res(word.size(), 0); // This counts the freq of each pattern
+		// vector<int> res(pat.size(), 0); // This counts the freq of each pattern
 		for (int i = 0; i < word.size(); ++i) {
 			int ind = r[i];
 			while (ind != -1) {
