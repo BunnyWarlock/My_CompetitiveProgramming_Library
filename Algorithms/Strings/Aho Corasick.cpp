@@ -25,6 +25,7 @@ struct AhoCorasick {
 	struct Node {
 		// (nmatches is optional)
 		int back, next[alpha], start = -1, end = -1; // nmatches = 0;
+        // next contains the next node along with the failure links of each node
 		Node(int v) { memset(next, v, sizeof(next)); }
 	};
 	vector<Node> N;
