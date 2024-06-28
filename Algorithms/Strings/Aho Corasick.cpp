@@ -26,7 +26,8 @@ struct AhoCorasick {
 		Node(int v) { memset(next, v, sizeof(next)); }
 	};
 	vector<Node> N;
-	vector<int> backp; 
+	vector<int> backp;
+    vector<int> sizes;
     // backp contains the dictionary links of each pattern
 
 	void insert(string& s, int j) {
@@ -43,7 +44,10 @@ struct AhoCorasick {
 		// N[n].nmatches++;
 	}
 	AhoCorasick(vector<string>& pat): N(1, -1) {
-		for(int i = 0; i < pat.size(); ++i) insert(pat[i], i);
+		for(int i = 0; i < pat.size(); ++i){
+            insert(pat[i], i);
+            sizes.push_back(pat[i].size());
+        }
 		N[0].back = N.size();
 		N.emplace_back(0);
 
@@ -81,15 +85,15 @@ struct AhoCorasick {
     // findAll(-, word) finds all words (up to N*sqrt(N) many if no duplicate patterns)
     // that start at each position (shortest first).
     // findAll is O(NM).
-	vector<vector<int>>findAll(vector<string>& pat, string& word) {
+	vector<vector<int>>findAll(string& word) {
 		vector<int> r = find(word);
 		vector<vector<int>> res(word.size());
-		// vector<int> res(pat.size(), 0); 
+		// vector<int> res(pat.size(), 0);
         // ^ This version counts the freq of each pattern
 		for (int i = 0; i < word.size(); ++i) {
 			int ind = r[i];
 			while (ind != -1) {
-                res[i - pat[ind].size() + 1].push_back(ind);
+                res[i - sizes[ind] + 1].push_back(ind);
 				// ++res[ind];
 				ind = backp[ind];
 			}
