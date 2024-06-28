@@ -2,6 +2,7 @@
 // Modified by: Sahil Yasar
 // Tested here:
 // https://www.spoj.com/problems/POLYMUL/
+// https://judge.yosupo.jp/problem/wildcard_pattern_matching
 
 #include <iostream>
 #include <vector>
