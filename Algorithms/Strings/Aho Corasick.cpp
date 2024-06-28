@@ -28,7 +28,7 @@ struct AhoCorasick {
 		Node(int v) { memset(next, v, sizeof(next)); }
 	};
 	vector<Node> N;
-	vector<int> backp;
+	vector<int> backp; // Dictionary Links
 
 	void insert(string& s, int j) {
 		// assert(!s.empty());
