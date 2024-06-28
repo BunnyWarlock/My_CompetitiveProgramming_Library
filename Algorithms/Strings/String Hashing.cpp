@@ -32,11 +32,16 @@ typedef A<1000000007, A<1000000009, unsigned>> H;
 // typedef A<1000000007, unsigned> H; // Use this for single hashing
 
 vector<H> pw;
+void updatePW(int s){
+    while(pw.size() <= s)
+        pw.push_back(pw.back() * C);
+}
 
 struct HashInterval {
 	vector<H> ha;
     HashInterval(){}
 	HashInterval(string& str) : ha(str.size()+1){
+        updatePW(str.size());
 		for (int i = 0; i < str.size(); ++i)
 			ha[i+1] = ha[i] * C + str[i];
 	}
@@ -64,23 +69,22 @@ H hashString(string& s){
 	return h;
 }
 
-void init(int max = 3e5 + 10){
+void init(){
 	timeval tp;
 	gettimeofday(&tp, 0);
 	C = (int)tp.tv_usec; // (less than modulo)
 	// assert((ull)(H(1)*2+1-3) == 0);
 
-    pw.resize(max);
-    pw[0] = 1;
-    for (int i = 1; i < max; ++i)
-        pw[i] = pw[i-1] * C;
+    pw.push_back(1);
 }
 
 H concatHash(H str1, H str2, int len2){
+    updatePW(len2);
     return str1*pw[len2] + str2;
 }
 
 void pointUpdateHash(H& a, string& s, char c, int i){
+    updatePW(s.size());
     a = a + pw[s.size()-1-i]*(c-s[i]);
 }
 
