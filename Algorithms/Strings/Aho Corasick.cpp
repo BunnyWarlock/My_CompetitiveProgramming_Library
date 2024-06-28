@@ -29,7 +29,8 @@ struct AhoCorasick {
 		Node(int v) { memset(next, v, sizeof(next)); }
 	};
 	vector<Node> N;
-	vector<int> backp; // Dictionary Links
+	vector<int> backp; 
+    // backp contains the dictionary links of each pattern
 
 	void insert(string& s, int j) {
 		// assert(!s.empty());
