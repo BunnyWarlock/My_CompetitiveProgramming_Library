@@ -52,6 +52,7 @@ struct HashInterval {
 
 // Get hash of all substring in str of a specific length
 vector<H> getHashes(string& str, int length) {
+    updatePW(length);
 	if (str.size() < length) return {};
 	H h = 0;
 	for (int i = 0; i < length; ++i)
