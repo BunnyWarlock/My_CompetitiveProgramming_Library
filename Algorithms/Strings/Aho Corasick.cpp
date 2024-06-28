@@ -2,13 +2,9 @@
 // Source: marian's (TC) code
 // Description: Aho-Corasick automaton, used for multiple pattern matching.
 // Initialize with AhoCorasick ac(patterns); the automaton start node will be at index 0.
-// find(word) returns for each position the index of the longest word that ends there, or -1 if none.
-// findAll(-, word) finds all words (up to N*sqrt(N) many if no duplicate patterns)
-// that start at each position (shortest first).
 // Duplicate patterns are allowed; empty patterns are not.
 // For large alphabets, split each symbol into chunks, with sentinel bits for symbol boundaries.
 // Time: construction takes O(26N), where N = sum of length of patterns.
-// find(x) is O(N), where N = length of x. findAll is O(NM).
 // Tested here:
 // https://lightoj.com/problem/substring-frequency-ii
 
@@ -67,6 +63,8 @@ struct AhoCorasick {
 		}
 	}
 
+    // find(word) returns for each position the index of the longest word that ends there, or -1 if none.
+    // find(x) is O(N), where N = length of x.
 	vector<int> find(string& word) {
 		int n = 0;
 		vector<int> res; // ll count = 0;
@@ -79,12 +77,14 @@ struct AhoCorasick {
 		return res;
 	}
 
-    // The result of this function is very memory heavy
-    // So modify it according to the problem to prevent MLE
+    // findAll(-, word) finds all words (up to N*sqrt(N) many if no duplicate patterns)
+    // that start at each position (shortest first).
+    // findAll is O(NM).
 	vector<vector<int>>findAll(vector<string>& pat, string& word) {
 		vector<int> r = find(word);
 		vector<vector<int>> res(word.size());
-		// vector<int> res(pat.size(), 0); // This counts the freq of each pattern
+		// vector<int> res(pat.size(), 0); 
+        // ^ This version counts the freq of each pattern
 		for (int i = 0; i < word.size(); ++i) {
 			int ind = r[i];
 			while (ind != -1) {
