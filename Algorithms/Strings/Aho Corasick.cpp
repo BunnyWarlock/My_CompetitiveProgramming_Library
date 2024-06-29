@@ -1,5 +1,6 @@
 // Author: Simon Lindholm
 // Source: marian's (TC) code
+// Modified by: Sahil Yasar
 // Description: Aho-Corasick automaton, used for multiple pattern matching.
 // Initialize with AhoCorasick ac(patterns); the automaton start node will be at index 0.
 // Duplicate patterns are allowed; empty patterns are not.
