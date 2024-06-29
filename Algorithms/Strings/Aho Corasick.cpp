@@ -7,7 +7,7 @@
 // For large alphabets, split each symbol into chunks, with sentinel bits for symbol boundaries.
 // Time: construction takes O(26N), where N = sum of length of patterns.
 // Tested here:
-// https://lightoj.com/problem/substring-frequency-ii
+// https://cses.fi/problemset/task/1731
  
 #include <iostream>
 #include <vector>
