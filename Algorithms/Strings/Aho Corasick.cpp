@@ -7,7 +7,7 @@
 // For large alphabets, split each symbol into chunks, with sentinel bits for symbol boundaries.
 // Time: construction takes O(26N), where N = sum of length of patterns.
 // Tested here:
-// https://lightoj.com/problem/substring-frequency-ii
+// https://open.kattis.com/problems/stringmultimatching
 
 #include <iostream>
 #include <vector>
@@ -92,7 +92,7 @@ struct AhoCorasick {
     // findAll(-, word) finds all words (up to N*sqrt(N) many if no duplicate patterns)
     // that start at each position (shortest first).
     // findAll is O(NM).
-	vector<vector<int>>findAll(string& word) {
+    vector<vector<int>>findAll(string& word) {
 		vector<int> r = find(word);
 		vector<vector<int>> res(word.size());
 		// vector<int> res(sizes.size(), 0);
@@ -111,22 +111,28 @@ struct AhoCorasick {
 
 int main(){
     cin.tie(0)->sync_with_stdio(0);
-    cin.exceptions(cin.failbit);
+    // cin.exceptions(cin.failbit);
 
-    int t, i, n, loop = 1;
+    int i, n;
     string s;
-    cin>>t;
-    while(t--){
-        cin>>n>>s;
+    while(cin>>n){
+        cin.ignore();
         vector<string> w(n);
         for (i = 0; i < n; ++i)
-            cin>>w[i];
-        AhoCorasick a(w);
+            getline(cin, w[i]);
+        getline(cin, s);
+        AhoCorasick<0, 128> a(w);
 
-        vector<int> ans = a.findAll(s);
-        cout<<"Case "<<(loop++)<<":"<<endl;
-        for (i = 0; i < n; ++i)
-            cout<<ans[i]<<endl;
+        vector<vector<int>> temp = a.findAll(s);
+        vector<vector<int>> ans(w.size());
+        for (i = 0; i < temp.size(); ++i)
+            for (auto& j: temp[i])
+                ans[j].push_back(i);
+        for (auto& v: ans){
+            for (auto& j: v)
+                cout<<j<<' ';
+            cout<<endl;
+        }
     }
 
     return 0;
