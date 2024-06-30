@@ -128,6 +128,7 @@ namespace waveletTree{
             return w.count(l, r, x, 0, maxVal);
         }
 
+        // swap a[i-1] with a[i]
         void swapadjacent(int i){
             w.swapadjacent(i, 0, maxVal);
         }
