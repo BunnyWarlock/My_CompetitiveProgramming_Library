@@ -71,21 +71,21 @@ namespace waveletTree{
         int sum(int l, int r, int k, int lo, int hi){
             if(l > r or k < lo) return 0;
             if(hi <= k) return s[r+1] - s[l];
-            int lb = p[l-1], rb = p[r], mid = (lo + hi) >> 1;;
+            int lb = p[l-1], rb = p[r], mid = (lo + hi) >> 1;
             return left->sum(lb, rb-1, k, lo, mid) +
                    right->sum(l-lb, r-rb, k, mid+1, hi);
         }
 
-        // swap a[i] with a[i+1], if a[i]!=a[i+1] call swapadjacent(i)
-        void swapadjacent(int i){
+        // swap a[i-1] with a[i]
+        void swapadjacent(int i, int lo, int hi){
             if(lo == hi) return;
-            b[i] = b[i-1] + b[i+1] - b[i];
-            c[i] = c[i-1] + c[i+1] - c[i];
-            if(b[i+1]-b[i] == b[i]-b[i-1]){
-                if(b[i]-b[i-1]) return left->swapadjacent(b[i]);
-                else return right->swapadjacent(i-b[i]);
+            p[i] = p[i-1] + p[i+1] - p[i];
+            s[i] = s[i-1] + s[i+1] - s[i];
+            int mid = (lo + hi) >> 1;
+            if(p[i+1]-p[i] == p[i]-p[i-1]){
+                if(p[i]-p[i-1]) return left->swapadjacent(p[i], lo, mid);
+                else return right->swapadjacent(i-p[i], mid+1, hi);
             }
-            return;
         }
     };
 
@@ -126,6 +126,10 @@ namespace waveletTree{
             auto itr = upper_bound(arr.begin(), arr.end(), k);
             int x = rank[*prev(itr)];
             return w.count(l, r, x, 0, maxVal);
+        }
+
+        void swapadjacent(int i){
+            w.swapadjacent(i, 0, maxVal);
         }
     };
 }
