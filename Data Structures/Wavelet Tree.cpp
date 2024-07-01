@@ -2,6 +2,7 @@
 // Tested here:
 // kth: https://www.spoj.com/problems/MKTHNUM/
 // LTE: https://www.spoj.com/problems/KQUERY/
+// sum: https://leetcode.com/problems/range-sum-query-immutable/description/ (Not actually tested)
 
 #include <iostream>
 #include <vector>
