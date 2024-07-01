@@ -22,10 +22,10 @@ namespace waveletTree{
             if (from >= to) return;
             int mid = (lo + hi) >> 1;
             auto f = [mid](int x){ return x <= mid; };
-            p.push_back(0); if (rank.size()) s.push_back(0);
+            p.push_back(0); s.push_back(0);
             for (auto itr = from; itr != to; ++itr){
                 p.push_back(p.back() + f(*itr));
-                if (rank.size()) s.push_back(s.back() + rank[*itr]);
+                s.push_back(s.back() + (*itr));
             }
             if (lo == hi) return;
             auto pivot = stable_partition(from, to, f);
