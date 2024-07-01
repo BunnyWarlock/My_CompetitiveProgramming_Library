@@ -2,7 +2,8 @@
 // Tested here:
 // kth: https://www.spoj.com/problems/MKTHNUM/
 // LTE: https://www.spoj.com/problems/KQUERY/
-// sum: https://leetcode.com/problems/range-sum-query-immutable/description/ (Not actually tested)
+// sum & swapadjacent: https://leetcode.com/problems/range-sum-query-immutable/description/ 
+// ^ Not actually tested in actual problems (since i couldn't find any) that require their function.
 
 #include <iostream>
 #include <vector>
