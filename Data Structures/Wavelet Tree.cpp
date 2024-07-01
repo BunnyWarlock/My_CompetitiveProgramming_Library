@@ -105,9 +105,6 @@ namespace waveletTree{
             return left->sum(lb, rb-1, k, lo, mid) +
                    right->sum(l-lb, r-rb, k, mid+1, hi);
         }
-        T sum(int l, int r, int k){
-            return sum(l, r, k, 0, maxVal);
-        }
 
         // swap a[i-1] with a[i]
         void swapadjacent(int i, int lo, int hi){
