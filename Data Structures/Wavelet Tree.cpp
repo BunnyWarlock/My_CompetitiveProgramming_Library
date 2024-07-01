@@ -16,12 +16,14 @@ namespace waveletTree{
         vector<int> p;
         vector<T> s, rank;
         wavelet *left, *right;
-        int maxVal;
+        T maxVal;
 
-        void build(int* from, int* to, int lo, int hi){
+        template <class D = T>
+        void build(D* from, D* to, D lo, D hi){
+            maxVal = hi;
             if (from >= to) return;
-            int mid = (lo + hi) >> 1;
-            auto f = [mid](int x){ return x <= mid; };
+            D mid = (lo + hi) >> 1;
+            auto f = [mid](D x){ return x <= mid; };
             p.push_back(0); s.push_back(0);
             for (auto itr = from; itr != to; ++itr){
                 p.push_back(p.back() + f(*itr));
@@ -46,7 +48,7 @@ namespace waveletTree{
                     ++k, rank.push_back(pairs[i].first);
                 temp[pairs[i].second] = k;
             }
-            build(temp, temp+n, 0, maxVal = k);
+            build<int>(temp, temp+n, 0, k);
         }
 
         ~wavelet() {
@@ -99,7 +101,7 @@ namespace waveletTree{
         T sum(int l, int r, int k, int lo, int hi){
             if(l > r or k < lo) return 0;
             if(hi <= k) return s[r+1] - s[l];
-            int lb = p[l-1], rb = p[r], mid = (lo + hi) >> 1;
+            int lb = p[l], rb = p[r+1], mid = (lo + hi) >> 1;
             return left->sum(lb, rb-1, k, lo, mid) +
                    right->sum(l-lb, r-rb, k, mid+1, hi);
         }
@@ -129,7 +131,7 @@ int main(){
     cin.tie(0)->sync_with_stdio(0);
     cin.exceptions(cin.failbit);
 
-    int n, q, i, l, r, k, maxVal;
+    int n, q, i, l, r, k;
     cin>>n>>q;
     int64_t a[n];
     for (i = 0; i < n; ++i)
