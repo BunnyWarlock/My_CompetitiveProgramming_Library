@@ -1,7 +1,11 @@
 // Author: Sahil Yasar
+// Tested here:
+// https://cses.fi/problemset/task/1740/
 
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <array>
 using namespace std;
 #define endl '\n'
 
@@ -78,23 +82,40 @@ namespace segmentTree{
 }
 using namespace segmentTree;
 
+typedef long long ll;
+const int ADD = 1e6 + 10;
+const int MAX = 2e6 + 10;
+ll arr[MAX];
+SEGtree<ll> s(arr, MAX, [](ll a, ll b){ return a+b; }, 0);
+
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cin.exceptions(cin.failbit);
 
-    int n, q, l, r, i;
-    cin>>n>>q;
-    int64_t arr[n];
-    for (i = 0; i < n; ++i)
-      cin>>arr[i];
-
-    SEGtree<int64_t> t(arr, n, [](int64_t a, int64_t b)->int64_t{return a^b;}, 0);
-    while(q--){
-      cin>>l>>r;
-      --l, --r;
-      cout<<t.query(l, r)<<endl;
+	ll n, x1, y1, x2, y2, ans, i;
+    cin>>n;
+    vector<array<int, 4>> temp;
+    for (i = 0; i < n; ++i){
+        cin>>x1>>y1>>x2>>y2;
+        if (y1 == y2)
+            temp.push_back({y1, 2, x1, x2});
+        else{
+            temp.push_back({y1, 1, x1, 0});
+            temp.push_back({y2, 3, x1, 0});
+        }
     }
+    sort(temp.begin(), temp.end());
+
+    ans = 0;
+    for (auto& [a, b, c, d]: temp){
+        c += ADD, d += ADD;
+        if (b == 1) s.update(c, s.query(c, c)+1);
+        else if (b == 2)
+            ans += s.query(c, d);
+        else s.update(c, s.query(c, c)-1);
+    }
+    cout<<ans<<endl;
 
     return 0;
 }
