@@ -20,7 +20,7 @@ namespace fenwickTree{
 		FT(int n, T (*f)(T, T), T val){
 			bit.resize(n, val);
 			combine = f;
-            		temp = val;
+            temp = val;
 		}
 
 		// a[pos] += dif
