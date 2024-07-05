@@ -1,12 +1,10 @@
 // Author: Lukas Polacek
 // Modified by: Sahil Yasar
 // Tested here:
-// https://atcoder.jp/contests/abc221/tasks/abc221_e
+// https://www.hackerearth.com/practice/data-structures/advanced-data-structures/fenwick-binary-indexed-trees/practice-problems/algorithm/mancunian-and-twin-permutations-d988930c/
 
 #include <iostream>
 #include <vector>
-#include <numeric>
-#include <algorithm>
 using namespace std;
 #define endl '\n'
 
@@ -52,48 +50,44 @@ namespace fenwickTree{
 }
 using namespace fenwickTree;
 
-typedef long long ll;
-const ll MOD = 998244353;
-
-ll modpow(ll x, ll p, ll m){
-	ll ans = 1;
-	x %= m;
-	if (!x) return 0;
-	while(p){
-		if (p&1)
-			ans = (ans*x)%m;
-		p = p>>1;
-		x = (x*x)%m;
-	}
-	return ans;
-}
+const int MAX = 1e5 + 10;
+vector<int> ind[MAX], s[MAX], e[MAX];
+int a[MAX], b[MAX], ans[MAX];
+pair<int, int> queries[MAX];
 
 int main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+    cin.tie(0)->sync_with_stdio(0);
     cin.exceptions(cin.failbit);
 
-	ll n, i, ans, temp;
-	cin>>n;
-	ll a[n], ind[n];
-	for (i = 0; i < n; ++i)
-		cin>>a[i];
+	int n, q, i, temp, l1, r1, l2, r2;
+    cin>>n;
+    for (i = 1; i <= n; ++i){
+        cin>>temp;
+        a[temp] = i;
+    }
+    for (i = 1; i <= n; ++i)
+        cin>>b[i];
 
-	FT<ll> s(n, [](ll a, ll b){ return (a+b)%MOD; }, 0LL);
+    cin>>q;
+    for (i = 0; i < q; ++i){
+        cin>>l1>>r1>>l2>>r2;
+        ans[i] = r1 - l1 + 1;
+        queries[i] = {l1, r1};
+        s[l2].push_back(i);
+        e[r2].push_back(i);
+    }
 
-	iota(ind, ind+n, 0);
-	sort(ind, ind+n, [&](ll& x, ll& y){
-		return make_pair(a[x], x) < make_pair(a[y], y);
-	});
+    FT<int> f(MAX, [](int a, int b){ return a+b; }, 0);
+    for (i = 1; i <= n; ++i){
+        for (auto& j: s[i])
+            ans[j] += f.query(queries[j].second) - f.query(queries[j].first - 1);
+        f.update(a[b[i]], 1);
+        for (auto& j: e[i])
+            ans[j] -= f.query(queries[j].second) - f.query(queries[j].first - 1);
+    }
 
-	ans = 0;
-	temp = modpow(2, MOD-2, MOD);
-	for (auto x: ind){
-		i = s.query(x-1);
-		ans = (ans + i*modpow(2, x, MOD)) % MOD;
-		s.update(x, modpow(temp, x+1, MOD));
-	}
-	cout<<ans<<endl;
+    for (i = 0; i < q; ++i)
+        cout<<ans[i]<<endl;
 
     return 0;
 }
