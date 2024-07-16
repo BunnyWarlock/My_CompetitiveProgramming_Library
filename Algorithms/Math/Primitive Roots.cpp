@@ -91,8 +91,11 @@ int main(){
     cin.exceptions(cin.failbit);
 
     ll n, i, j, ans;
-    for (i = 0; i < P; ++i)
-        dlog[powMod(G, i, P)] = i;
+    j = 1;
+    for (i = 0; i < P; ++i){
+        dlog[j] = i;
+        j = j * G % P;
+    }
     cin>>n;
     vector<int> a;
     for (i = 0; i < n; ++i){
@@ -113,9 +116,11 @@ int main(){
     for (i = 0; i < arr.size(); ++i)
         arr[i] >>= 1;
 
-    ans = 0;
-    for (i = 0; i < arr.size(); ++i)
-        ans += arr[i]*powMod(G, i, P);
+    ans = 0, j = 1;
+    for (i = 0; i < arr.size(); ++i){
+        ans += arr[i] * j;
+        j = j * G % P;
+    }
     cout<<ans<<endl;
 
     return 0;
