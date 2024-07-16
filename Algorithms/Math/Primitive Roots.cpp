@@ -10,16 +10,16 @@ using namespace std;
 
 typedef long long ll;
 ll powMod(ll x, ll p, ll m){
-  ll ans = 1;
-  x %= m;
-  if (!x) return 0;
-  while(p){
-    if (p&1)
-      ans = (ans*x)%m;
-    p = p>>1;
-    x = (x*x)%m;
-  }
-  return ans;
+    ll ans = 1;
+    x %= m;
+    if (!x) return 0;
+    while(p){
+        if (p&1)
+            ans = (ans*x)%m;
+        p = p>>1;
+        x = (x*x)%m;
+    }
+    return ans;
 }
 
 int generator(int p){
