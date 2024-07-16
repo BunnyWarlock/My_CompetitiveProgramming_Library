@@ -1,4 +1,5 @@
 // Author: Sahil Yasar
+// Source: https://cp-algorithms.com/algebra/primitive-root.html
 // Tested here:
 // https://atcoder.jp/contests/agc047/tasks/agc047_c
 
