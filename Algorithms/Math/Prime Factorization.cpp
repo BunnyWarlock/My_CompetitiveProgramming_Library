@@ -36,7 +36,7 @@ void sieve(){
 
 vector<pii> primeFactorization(int x){
   vector<pii> v;
-  for (int i = 0; p[i]*p[i] <= x; ++i){
+  for (int i = 0; i < p.size() && p[i]*p[i] <= x; ++i){
     if (x%p[i]) continue;
     int temp = 0;
     while(x%p[i] == 0){
