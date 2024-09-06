@@ -35,19 +35,19 @@ void sieve(){
 }
 
 vector<pii> primeFactorization(ll x){
-  vector<pii> v;
-  for (int i = 0; i < p.size() && p[i]*p[i] <= x; ++i){
-    if (x%p[i]) continue;
-    int temp = 0;
-    while(x%p[i] == 0){
-      ++temp;
-      x /= p[i];
+    vector<pii> v;
+    for (int i = 0; i < p.size() && p[i]*p[i] <= x; ++i){
+        if (x%p[i]) continue;
+        int temp = 0;
+        while(x%p[i] == 0){
+            ++temp;
+            x /= p[i];
+        }
+        v.push_back({p[i], temp});
     }
-    v.push_back({p[i], temp});
-  }
-  if (x != 1)
-    v.push_back({x, 1});
-  return v;
+    if (x != 1)
+        v.push_back({x, 1});
+    return v;
 }
 
 void genDiv(vector<pii>& pf, vector<ull>& div, ull curDiv = 1, int i = 0){
