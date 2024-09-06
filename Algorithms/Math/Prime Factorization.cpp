@@ -20,18 +20,18 @@ bitset<MAX> primes;
 vector<int> p;
 
 void sieve(){
-  primes.set();
-  primes[0] = primes[1] = false;
-  for (int i = 4; i < MAX; i+=2)
-    primes[i] = false;
-  for (int i = 3; i*i <= MAX; i+=2){
-    if (!primes[i]) continue;
-    for (int j=i*i; j < MAX; j+=i+i)
-      primes[j] = false;
-  }
-  for (int i = 0; i < MAX; ++i)
-    if (primes[i])
-      p.push_back(i);
+    primes.set();
+    primes[0] = primes[1] = false;
+    for (int i = 4; i < MAX; i+=2)
+        primes[i] = false;
+    for (int i = 3; i*i <= MAX; i+=2){
+        if (!primes[i]) continue;
+        for (int j=i*i; j < MAX; j+=i+i)
+            primes[j] = false;
+    }
+    for (int i = 0; i < MAX; ++i)
+        if (primes[i])
+            p.push_back(i);
 }
 
 vector<pii> primeFactorization(ll x){
