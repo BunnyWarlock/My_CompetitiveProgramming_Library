@@ -34,7 +34,7 @@ void sieve(){
       p.push_back(i);
 }
 
-vector<pii> primeFactorization(int x){
+vector<pii> primeFactorization(ll x){
   vector<pii> v;
   for (int i = 0; i < p.size() && p[i]*p[i] <= x; ++i){
     if (x%p[i]) continue;
