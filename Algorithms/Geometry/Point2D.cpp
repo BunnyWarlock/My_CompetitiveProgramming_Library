@@ -1,26 +1,34 @@
-// Author: Ulf Lundstrom, Victor Lecomte, chilli
+// Author: Ulf Lundstrom, Victor Lecomte, chilli, Sahil Yasar
 // Description: Class to handle points in the plane.
 // T can be e.g. double or long long. (Avoid int.)
 // Tested here:
 // lineDist: https://cses.fi/problemset/task/2189/
 // segInter: https://cses.fi/problemset/task/2190/
-
+// circleInter: https://codeforces.com/problemset/problem/933/C
 
 #include <iostream>
 #include <cmath>
-#include <tuple>
 #include <vector>
 #include <set>
+#include <algorithm>
 using namespace std;
 #define endl '\n'
+
+// Cursed code
+typedef long double ld;
+#define double ld
+
+const double EPS = 1e-12;
 
 template <class T> int sgn(T x) { return (x > 0) - (x < 0); }
 template<class T> struct Point {
 	typedef Point P;
 	T x, y;
 	explicit Point(T x=0, T y=0) : x(x), y(y) {}
-	bool operator<(P p) const { return tie(x,y) < tie(p.x,p.y); }
-	bool operator==(P p) const { return tie(x,y)==tie(p.x,p.y); }
+	bool operator<(P p) const { return (abs(x - p.x) < EPS)? (y < p.y): (x < p.x); }
+    //                          return tie(x,y) < tie(p.x,p.y); ^^^
+	bool operator==(P p) const { return abs(x - p.x) < EPS && abs(y - p.y) < EPS; }
+    //                          return tie(x,y)==tie(p.x,p.y); ^^^
 	P operator+(P p) const { return P(x+p.x, y+p.y); }
 	P operator-(P p) const { return P(x-p.x, y-p.y); }
 	P operator*(T d) const { return P(x*d, y*d); }
@@ -86,51 +94,90 @@ template<class P> vector<P> segInter(P a, P b, P c, P d) {
 // Returns the shortest distance between point p and the line segment from point s to e.
 typedef Point<double> P;
 double segDist(P& s, P& e, P& p) {
-	if (s==e) return (p-s).dist();
-	auto d = (e-s).dist2(), t = min(d,max(.0,(p-s).dot(e-s)));
+	if (s == e) return (p-s).dist();
+	auto d = (e-s).dist2(), t = min(d,max((ld).0,(p-s).dot(e-s)));
 	return ((p-s)*d-(e-s)*t).dist()/d;
 }
 
+// Finds the intersection between a circle and a line.
+// Returns a vector of either 0, 1, or 2 intersection points.
+// P is intended to be Point<double>.
+vector<P> circleLine(P c, double r, P a, P b) {
+	P ab = b - a, p = a + ab * (c-a).dot(ab) / ab.dist2();
+	double s = a.cross(b, c), h2 = r*r - s*s / ab.dist2();
+	if (h2 < 0) return {};
+	if (h2 == 0) return {p};
+	P h = ab.unit() * sqrt(h2);
+	return {p - h, p + h};
+}
+
+// Computes the pair of points at which two circles intersect.
+// Returns 0 if no intersection points, -1 if infinite, 1 otherwise
+int circleInter(P a, P b, double r1, double r2, pair<P, P>& out) {
+	if (a == b) { return -(abs(r1 - r2) < EPS); }
+	double d = (b - a).dist(), dt = (r1*r1 - r2*r2)/d, d1 = (d + dt)/2;
+	if (r1+r2 < d - EPS || abs(r1-r2) > d + EPS) return 0;
+    P dir = (b - a)/d, pcrs = a + dir*d1;
+    dt = sqrt(fmax(0, r1*r1 - d1*d1)), dir = dir.perp();
+	out = {pcrs + dir*dt, pcrs - dir*dt};
+	return 1;
+}
+
 typedef long long ll;
-const double EPS = 1e-12;
+const int MAX = 12;
+vector<int> g[MAX];
+vector<bool> vis(MAX, false);
+void dfs(int source){
+    vis[source] = true;
+    for (int u: g[source])
+        if (!vis[u])
+            dfs(u);
+}
 
 int main(){
     cin.tie(0)->sync_with_stdio(0);
     cin.exceptions(cin.failbit);
 
-    /*ll t, x, y;
-    double ans;
-    cin>>t;
-    while(t--){
-        cin>>x>>y;
-        Point<ll> a(x, y);
-        cin>>x>>y;
-        Point<ll> b(x, y);
-        cin>>x>>y;
-        Point<ll> p(x, y);
-
-        ans = lineDist(a, b, p);
-        if (abs(ans) < EPS)
-            cout<<"TOUCH"<<endl;
-        else
-            cout<<((ans < -EPS)? "RIGHT": "LEFT")<<endl;
-    }*/
-
-    ll t, x, y;
-    cin>>t;
-    while(t--){
-        cin>>x>>y;
-        Point<double> a(x, y);
-        cin>>x>>y;
-        Point<double> b(x, y);
-        cin>>x>>y;
-        Point<double> c(x, y);
-        cin>>x>>y;
-        Point<double> d(x, y);
-
-        auto ans = segInter(a, b, c, d);
-        cout<<((ans.empty())? "NO": "YES")<<endl;
+    int n, i, j, k, x, y, V, E, F, C;
+    cin>>n;
+    int r[n];
+    vector<P> c;
+    for (i = 0; i < n; ++i){
+        cin>>x>>y>>r[i];
+        c.emplace_back(x, y);
     }
+
+    vector<P> all;
+    E = 0;
+    for (i = 0; i < n; ++i){
+        vector<P> temp;
+        for (j = 0; j < n; ++j){
+            if (i == j) continue;
+            pair<P, P> out;
+            k = circleInter(c[i], c[j], r[i], r[j], out);
+            if (k == 1){
+                temp.push_back(out.first);
+                temp.push_back(out.second);
+                g[i].push_back(j);
+            }
+        }
+        sort(temp.begin(), temp.end());
+        E += unique(temp.begin(),temp.end()) - temp.begin();
+        for (auto& p: temp)
+            all.push_back(p);
+    }
+    sort(all.begin(), all.end());
+    V = unique(all.begin(),all.end()) - all.begin();
+
+    C = 0;
+    for (i = 0; i < n; ++i)
+        if (!vis[i]){
+            dfs(i);
+            ++C;
+        }
+
+    F = E-V+C+1;
+    cout<<F<<endl;
 
     return 0;
 }
