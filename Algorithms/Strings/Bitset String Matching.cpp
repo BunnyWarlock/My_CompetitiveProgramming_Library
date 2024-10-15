@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <bitset>
+#include <vector>
 using namespace std;
 #define endl '\n'
 
@@ -43,6 +44,15 @@ int matchRange(string& pattern, int l, int r){
     for(int i = 0; i < pattern.size(); ++i)
         ans &= (mask[pattern[i] - 'a'] >> i);
     return (ans >> l).count() - (ans >> (r-pattern.size()+2)).count();
+}
+
+vector<int> pos(string& pattern, int l, int r) {
+    matchRange(pattern, l, r);
+    vector<int> positions;
+    for(int i = l; i < r-pattern.size()+2; ++i)
+        if(ans[i])
+            positions.push_back(i);
+    return positions;
 }
 
 int main(){
