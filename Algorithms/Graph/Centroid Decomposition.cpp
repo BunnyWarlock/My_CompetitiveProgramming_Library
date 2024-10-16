@@ -1,4 +1,4 @@
-// Author: Sahil Yasar
+// Author: Sahil Yasar, Johan Sannemo, pajenegod, chilli
 // Tested here:
 // https://codeforces.com/contest/321/problem/C
 // https://codeforces.com/problemset/problem/342/E
