@@ -1,6 +1,7 @@
 // Author: Sahil Yasar
 // Tested here:
 // https://codeforces.com/problemset/problem/914/F
+// https://codeforces.com/problemset/problem/963/D
 
 #include <iostream>
 #include <string>
@@ -49,9 +50,8 @@ int matchRange(string& pattern, int l, int r){
 vector<int> pos(string& pattern, int l, int r) {
     matchRange(pattern, l, r);
     vector<int> positions;
-    for(int i = l; i < r-pattern.size()+2; ++i)
-        if(ans[i])
-            positions.push_back(i);
+    for(int i = ans._Find_next(l-1); i < r-pattern.size()+2; i = ans._Find_next(i))
+        positions.push_back(i);
     return positions;
 }
 
@@ -59,21 +59,21 @@ int main(){
     cin.tie(0)->sync_with_stdio(0);
     cin.exceptions(cin.failbit);
 
-    int q, op, a, b, ans;
-    char c;
+    int q, k, i, ans;
     string p;
     cin>>text;
     computeMask();
     cin>>q;
     while(q--){
-        cin>>op;
-        if (op == 1){
-            cin>>a>>c;
-            updateMask(--a, c);
-        }
+        cin>>k>>p;
+        vector<int> ind = pos(p, 0, (int)text.size()-1);
+        if (ind.size() < k)
+            cout<<-1<<endl;
         else{
-            cin>>a>>b>>p;
-            ans = matchRange(p, --a, --b);
+            ans = text.size();
+            for (i = 0; i <= ind.size()-k; ++i)
+                ans = min(ans, ind[i+k-1]-ind[i]+1);
+            ans += p.size()-1;
             cout<<ans<<endl;
         }
     }
