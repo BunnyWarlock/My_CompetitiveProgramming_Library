@@ -10,6 +10,9 @@
 using namespace std;
 #define endl '\n'
 
+vector<vector<int>> P;
+bool store = true;
+
 void suffixArray(string& s, vector<int>& sa, vector<int>& lcp, int lim=256){
 	int n = s.size() + 1, k = 0, a, b, i, j, p;
 	vector<int> x(s.begin(), s.end()+1), y(n), ws(max(n, lim)), rank(n);
@@ -24,6 +27,7 @@ void suffixArray(string& s, vector<int>& sa, vector<int>& lcp, int lim=256){
 		swap(x, y), p = 1, x[sa[0]] = 0;
 		for(i = 1; i < n; ++i) a = sa[i - 1], b = sa[i], x[b] =
 			(y[a] == y[b] && y[a + j] == y[b + j]) ? p - 1 : p++;
+		if (store) P.emplace_back(x);
 	}
 	for(i = 1; i < n; ++i) rank[sa[i]] = i;
 	for (i = 0; i < n-1; lcp[rank[i++]] = k)
@@ -32,11 +36,41 @@ void suffixArray(string& s, vector<int>& sa, vector<int>& lcp, int lim=256){
 }
 
 int main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+    cin.tie(0)->sync_with_stdio(0);
     cin.exceptions(cin.failbit);
 
-    string a, b, c;
+    // string s = "aaaa";
+    // vector<int> sa, lcp;
+    // suffixArray(s, sa, lcp);
+	//
+	// cout<<"Index\t: ";
+	// for (int i = 0; i < s.size(); ++i)
+	// 	cout<<i<<" ";
+	// cout<<endl;
+	//
+	// cout<<"String\t: ";
+	// for (int i = 0; i < s.size(); ++i)
+	// 	cout<<s[i]<<" ";
+	// cout<<endl;
+	//
+	// cout<<"SA\t: ";
+	// for (int i = 1; i < sa.size(); ++i)
+	// 	cout<<sa[i]<<" ";
+	// cout<<endl;
+	//
+	// cout<<"LCP\t: ";
+	// for (int i = 1; i < lcp.size(); ++i)
+	// 	cout<<lcp[i]<<" ";
+	// cout<<endl;
+	//
+	// for (int i = 0; i < P.size(); ++i){
+	// 	cout<<"P_"<<i<<"\t: ";
+	// 	for (int j = 0; j < P[i].size(); ++j)
+	// 		cout<<P[i][j]<<" ";
+	// 	cout<<endl;
+	// }
+
+	string a, b, c;
     vector<int> sa, lcp;
     int i, ans;
     cin>>a>>b;
