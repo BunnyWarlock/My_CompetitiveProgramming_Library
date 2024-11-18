@@ -1,7 +1,7 @@
-// Author: 罗穗骞, chilli
-// Modified by: Sahil Yasar
+// Author: 罗穗骞, chilli, Sahil Yasar
 // Tested here:
 // https://www.spoj.com/problems/LCS/en/
+// https://vjudge.net/problem/UVA-719/origin
 
 #include <iostream>
 #include <vector>
@@ -33,6 +33,26 @@ void suffixArray(string& s, vector<int>& sa, vector<int>& lcp, int lim=256){
 	for (i = 0; i < n-1; lcp[rank[i++]] = k)
 		for (k && k--, j = sa[rank[i] - 1];
 				s[i + k] == s[j + k]; k++);
+}
+
+vector<int> cyclicShift(string s){
+    int n = s.length(), l = -1;
+    s += s;
+    vector<int> sa, lcp, p;
+    suffixArray(s, sa, lcp);
+    for (int i = 1; i < sa.size(); ++i)
+        if (sa[i] < n){
+            if (sa[i-1] < n && lcp[i] >= n){
+                if (l == -1) l = p.size() - 1;
+            }
+            else if (l != -1){
+                reverse(p.begin()+l, p.end());
+                l = -1;
+            }
+            p.push_back(sa[i]);
+        }
+    if (l != -1) reverse(p.begin()+l, p.end());
+    return p;
 }
 
 int main(){
