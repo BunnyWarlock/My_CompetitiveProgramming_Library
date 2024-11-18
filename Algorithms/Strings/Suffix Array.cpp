@@ -11,7 +11,7 @@ using namespace std;
 #define endl '\n'
 
 vector<vector<int>> P;
-bool store = true;
+bool store = false;
 
 void suffixArray(string& s, vector<int>& sa, vector<int>& lcp, int lim=256){
 	int n = s.size() + 1, k = 0, a, b, i, j, p;
