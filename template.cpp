@@ -22,9 +22,12 @@ template <class ...Args> auto &print(const Args &...args)
 #define all(x) x.begin(), x.end()
 #define rall(x) x.rbegin(), x.rend()
 #define sz(x) (int)x.size()
+#define f first
+#define s second
 #define read(arr) for(auto& x: arr) cin>>x
 #define write(arr) for(auto& x: arr) cout<<x<<" "; cout<<endl
-// #define mem(x, n) memset(x, n, sizeof(x))
+#define mem(x, n) memset(x, n, sizeof(x))
+#define getUnique(x) sort(all(x)); x.erase(unique(all(x)), x.end());
 
 typedef long long ll;
 typedef long double ld;
