@@ -1,6 +1,7 @@
 // Author: Sahil Yasar
 // Tested here:
 // https://cses.fi/problemset/task/1734
+// https://codeforces.com/blog/entry/117688?#comment-1225843
 
 #include <iostream>
 #include <map>
