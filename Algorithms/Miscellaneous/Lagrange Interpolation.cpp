@@ -2,7 +2,6 @@
 // Tested here:
 // https://codeforces.com/problemset/problem/622/F
 
-// #include <bits/stdc++.h>
 #include <iostream>
 #include <vector>
 #include <cassert>
