@@ -33,7 +33,7 @@ namespace modInt{
         inline Mint operator/(int64_t b) { return *this * Mint(b).invert(); }
     	Mint invert() {
     		int64_t x, y, g = extgcd(val, MOD, x, y);
-    		assert(g == 1); return Mint((x + MOD) % MOD);
+    		assert(g == 1); return Mint(x);
     	}
     	inline Mint operator^(int64_t e) {
     		if (!e) return Mint(1);
