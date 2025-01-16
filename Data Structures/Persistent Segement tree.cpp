@@ -2,16 +2,16 @@
 // Tested here:
 // https://cses.fi/problemset/task/1734
 // https://codeforces.com/blog/entry/117688?#comment-1225843
+// https://cses.fi/problemset/task/1737/
 
 #include <iostream>
-#include <map>
-#include <algorithm>
+#include <vector>
 using namespace std;
 #define endl '\n'
 
 const int N = 2e5 + 10;
 const int M = 1e7 + 10;
-typedef int T;
+typedef int64_t T;
 
 T arr[M];
 int L[M], R[M], root[N];
@@ -66,30 +66,33 @@ int update(int pos, T x, int rt = -1){
 }
 
 int main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+    cin.tie(0)->sync_with_stdio(0);
     cin.exceptions(cin.failbit);
 
-    int n, q, i, a, b;
+    int64_t n, q, i, k, a, b;
     cin>>n>>q;
+    int64_t t[n];
+    for (i = 0; i < n; ++i)
+        cin>>t[i];
+    PSEGtree(t, n, [](int64_t x, int64_t y){ return x+y; }, 0);
 
-    int x[n], rt[n];
-    fill(x, x+n, 0);
-    PSEGtree(x, n, [](int a, int b){ return a+b; }, 0);
-    map<int, int> ind;
-
-    for (i = 0; i < n; ++i){
-      cin>>x[i];
-      if (ind.count(x[i]))
-        update(ind[x[i]], 0);
-      rt[i] = update(i, 1);
-      ind[x[i]] = i;
-    }
-
+    vector<int> rt(1, 0);
     while(q--){
-      cin>>a>>b;
-      --a, --b;
-      cout<<query(a, b, rt[b])<<endl;
+        cin>>i;
+        if (i == 1){
+            cin>>k>>a>>b;
+            --k, --a;
+            rt[k] = update(a, b, rt[k]);
+        }
+        else if (i == 2){
+            cin>>k>>a>>b;
+            --k, --a, --b;
+            cout<<query(a, b, rt[k])<<endl;
+        }
+        else{
+            cin>>k;
+            rt.push_back(rt[k-1]);
+        }
     }
 
     return 0;
