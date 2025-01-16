@@ -4,7 +4,6 @@
 
 #include <iostream>
 #include <sys/time.h>
-#include <vector>
 using namespace std;
 #define endl '\n'
 
