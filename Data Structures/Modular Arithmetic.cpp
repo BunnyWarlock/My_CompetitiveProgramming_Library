@@ -1,6 +1,7 @@
 // Author: Sahil Yasar
 // Tested here:
 // https://codeforces.com/contest/1957/problem/C
+// https://cses.fi/problemset/task/2064
 
 #include <iostream>
 #include <assert.h>
@@ -55,6 +56,10 @@ mint<MOD> ifac[MAX];
 int64_t nCr(int n, int r){
     if (n < 0 || n < r || r < 0) return 0;
     return (fac[n] * ifac[n-r] * ifac[r]).val;
+}
+
+int64_t catalan(int n){
+	return (mint<MOD>(nCr(n+n, n)) / (n+1)).val;
 }
 
 int main(){
