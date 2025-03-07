@@ -30,7 +30,7 @@ int phi(int n){
     return memo[n] = e;
 }
 
-#define MOD(a,b) a<b? a: b+a%b
+#define MOD(a,b) (a < b)? a: b+a%b
 ll qMod(ll x, ll p, ll m){
     ll ans = 1;
     while(p){
