@@ -97,23 +97,26 @@ namespace modInt{
 using namespace modInt;
 
 namespace bigInt{
-	typedef vector<ll> lnum;
-	const ll base = 1e18;
+	using INT1 = ll; // or int
+	using INT2 = __int128_t; // or ll
+	const int POW = 18; // or 9
+	const ll base = 1e18; // or 1e9
+	typedef vector<INT1> lnum;
 
 	void print(lnum& a){
 	    cout<<(a.empty()?0:a.back());
 	    for (int i=(int)a.size()-2; i>=0; --i)
-	        cout<<setfill('0')<<setw(18)<<a[i];
+	        cout<<setfill('0')<<setw(POW)<<a[i];
 	    cout<<endl;
 	}
 
 	lnum get(string& s){
 	    lnum a;
-	    for (int i=(int)s.length(); i>0; i-=18){
-	        if (i < 18)
-	            a.push_back (stoll(s.substr (0, i).c_str()));
+	    for (int i=(int)s.length(); i > 0; i -= POW){
+	        if (i < POW)
+	            a.push_back((INT1)stoll(s.substr (0, i)));
 	        else
-	            a.push_back (stoll(s.substr (i-18, 18).c_str()));
+	            a.push_back((INT1)stoll(s.substr (i-POW, POW)));
 	    }
 	    while (a.size() > 1 && a.back() == 0)
 	        a.pop_back();
@@ -121,8 +124,8 @@ namespace bigInt{
 	}
 
 	lnum operator+(lnum a, const lnum& b){
-	    ll carry = 0;
-	    for (size_t i=0; i<max(a.size(),b.size()) || carry; ++i) {
+	    INT1 carry = 0;
+	    for (size_t i=0; i < max(a.size(),b.size()) || carry; ++i) {
 	        if (i == a.size())
 	            a.push_back (0);
 	        a[i] += carry + (i < b.size() ? b[i] : 0);
@@ -133,7 +136,7 @@ namespace bigInt{
 	}
 
 	lnum operator-(lnum a, const lnum& b){
-		ll carry = 0;
+		INT1 carry = 0;
 		for (size_t i=0; i < b.size() || carry; ++i) {
 		    a[i] -= carry + (i < b.size() ? b[i] : 0);
 		    carry = a[i] < 0;
@@ -147,10 +150,10 @@ namespace bigInt{
 	lnum operator*(lnum a, const lnum& b){
 	    lnum c (a.size()+b.size());
 	    for (size_t i=0; i < a.size(); ++i)
-	        for (ll j=0, carry=0; j<(int)b.size() || carry; ++j) {
-	            __int128_t cur = c[i+j] + (__int128_t)a[i] * (j < (int)b.size() ? b[j] : 0) + carry;
-	            c[i+j] = ll(cur % base);
-	            carry = ll(cur / base);
+	        for (INT1 j = 0, carry = 0; j < b.size() || carry; ++j) {
+	            INT2 cur = c[i+j] + (INT2)a[i] * ((j < b.size())? b[j]: 0) + carry;
+	            c[i+j] = INT1(cur % base);
+	            carry = INT1(cur / base);
 	        }
 	    while (c.size() > 1 && c.back() == 0)
 	        c.pop_back();
@@ -158,13 +161,13 @@ namespace bigInt{
 	}
 
 	lnum operator*(lnum a, const ll b){
-	    ll carry = 0;
-	    for (size_t i=0; i < a.size() || carry; ++i) {
+	    INT1 carry = 0;
+	    for (size_t i = 0; i < a.size() || carry; ++i) {
 	        if (i == a.size())
 	            a.push_back (0);
-	        __int128_t cur = carry + (__int128_t)a[i] * b;
-	        a[i] = ll(cur % base);
-	        carry = ll(cur / base);
+	        INT2 cur = carry + (INT2)a[i] * b;
+	        a[i] = INT1(cur % base);
+	        carry = INT1(cur / base);
 	    }
 	    while (a.size() > 1 && a.back() == 0)
 	        a.pop_back();
@@ -172,11 +175,11 @@ namespace bigInt{
 	}
 
 	lnum operator/(lnum a, const ll b){
-	    ll carry = 0;
-	    for (int i=(int)a.size()-1; i>=0; --i) {
-	        __int128_t cur = a[i] + (__int128_t)carry * base;
-	        a[i] = ll(cur / b);
-	        carry = ll(cur % b);
+	    INT1 carry = 0;
+	    for (int i = (int)a.size()-1; i >= 0; --i) {
+	        INT2 cur = a[i] + (INT2)carry * base;
+	        a[i] = INT1(cur / b);
+	        carry = INT1(cur % b);
 	    }
 	    while (a.size() > 1 && a.back() == 0)
 	        a.pop_back();
@@ -199,9 +202,12 @@ namespace bigInt{
 		bitset<MAXB> ret;
 		int i = 0;
 		while(!a.empty() && !(a.size() == 1 && a[0] == 0)){
+			// ull temp = a%((ull)0x80000000);
 			ull temp = a%((ull)0x1000000000000000);
+			// for (int j = 0; j < 31; ++j, ++i)
 			for (int j = 0; j < 60; ++j, ++i)
 				ret[i] = (temp>>j)&1;
+			// a = a/((ll)0x80000000);
 			a = a/((ll)0x1000000000000000);
 		}
 		return ret;
