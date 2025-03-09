@@ -16,7 +16,7 @@ const int MAXB = 4e5;
 typedef long long ll;
 typedef unsigned long long ull;
 
-namespace rootNumberSystem{
+namespace Z_sqrtX{
 	template <class T, int X>
 	struct rootX{
 		T a, b; // a + b*sqrt(X)
@@ -54,7 +54,7 @@ namespace rootNumberSystem{
 		return out<<z.a<<" + "<<z.b<<"sqrt("<<X<<") ";
 	}
 }
-using namespace rootNumberSystem;
+using namespace Z_sqrtX;
 
 namespace modInt{
     ll extgcd(ll a, ll b, ll& x, ll& y) {
