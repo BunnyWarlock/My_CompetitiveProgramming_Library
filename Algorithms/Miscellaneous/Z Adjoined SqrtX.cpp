@@ -103,13 +103,6 @@ namespace bigInt{
 	const ll base = 1e18; // or 1e9
 	typedef vector<INT1> lnum;
 
-	void print(lnum& a){
-	    cout<<(a.empty()?0:a.back());
-	    for (int i=(int)a.size()-2; i>=0; --i)
-	        cout<<setfill('0')<<setw(POW)<<a[i];
-	    cout<<endl;
-	}
-
 	lnum get(string& s){
 	    lnum a;
 	    for (int i=(int)s.length(); i > 0; i -= POW){
@@ -117,57 +110,6 @@ namespace bigInt{
 	            a.push_back((INT1)stoll(s.substr (0, i)));
 	        else
 	            a.push_back((INT1)stoll(s.substr (i-POW, POW)));
-	    }
-	    while (a.size() > 1 && a.back() == 0)
-	        a.pop_back();
-	    return a;
-	}
-
-	lnum operator+(lnum a, const lnum& b){
-	    INT1 carry = 0;
-	    for (size_t i=0; i < max(a.size(),b.size()) || carry; ++i) {
-	        if (i == a.size())
-	            a.push_back (0);
-	        a[i] += carry + (i < b.size() ? b[i] : 0);
-	        carry = a[i] >= base;
-	        if (carry)  a[i] -= base;
-	    }
-	    return a;
-	}
-
-	lnum operator-(lnum a, const lnum& b){
-		INT1 carry = 0;
-		for (size_t i=0; i < b.size() || carry; ++i) {
-		    a[i] -= carry + (i < b.size() ? b[i] : 0);
-		    carry = a[i] < 0;
-		    if (carry)  a[i] += base;
-		}
-		while (a.size() > 1 && a.back() == 0)
-		    a.pop_back();
-		return a;
-	}
-
-	lnum operator*(lnum a, const lnum& b){
-	    lnum c (a.size()+b.size());
-	    for (size_t i=0; i < a.size(); ++i)
-	        for (INT1 j = 0, carry = 0; j < b.size() || carry; ++j) {
-	            INT2 cur = c[i+j] + (INT2)a[i] * ((j < b.size())? b[j]: 0) + carry;
-	            c[i+j] = INT1(cur % base);
-	            carry = INT1(cur / base);
-	        }
-	    while (c.size() > 1 && c.back() == 0)
-	        c.pop_back();
-	    return c;
-	}
-
-	lnum operator*(lnum a, const ll b){
-	    INT1 carry = 0;
-	    for (size_t i = 0; i < a.size() || carry; ++i) {
-	        if (i == a.size())
-	            a.push_back (0);
-	        INT2 cur = carry + (INT2)a[i] * b;
-	        a[i] = INT1(cur % base);
-	        carry = INT1(cur / base);
 	    }
 	    while (a.size() > 1 && a.back() == 0)
 	        a.pop_back();
@@ -191,11 +133,6 @@ namespace bigInt{
 		for (int i = (int)a.size()-1; i >= 0; --i)
 			ret = (ret*base + a[i]) % m;
 		return (ull)ret;
-	}
-
-	bool isEven(lnum& a){
-		if (a.empty()) return false;
-		return a[0]%2 == 0;
 	}
 
 	bitset<MAXB> toBits(lnum a){
