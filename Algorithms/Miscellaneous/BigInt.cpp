@@ -10,7 +10,6 @@
 #include <vector>
 #include <iomanip>
 #include <cmath>
-#include <cassert>
 using namespace std;
 #define endl '\n'
 
