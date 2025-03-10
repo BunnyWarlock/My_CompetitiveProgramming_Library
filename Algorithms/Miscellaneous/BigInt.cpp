@@ -1,7 +1,7 @@
 // Author: Sahil Yasar
 // Tested here:
 // https://dmoj.ca/problem/fibonacci2
-// https://www.spoj.com/problems/VFMUL/
+// https://judge.yosupo.jp/problem/multiplication_of_big_integers
 
 #include <iostream>
 #include <complex>
@@ -45,31 +45,10 @@ namespace bigInt{
 	using INT1 = ll; // or int
 	using INT2 = __int128_t; // or ll
 	const int POW = 18; // or 9
-	const int POW2 = 5; // Used for mulFFT, as conv give precision errors for high bases. 6 works for ld, but slower.
+	const int POW2 = 4; // Used for mulFFT, as conv give precision errors for high bases. 6 works for ld, but slower.
 	const int POW3 = 60; // Used for toBits. 31 works for base 1e9
 	const ll base = 1e18; // or 1e9
 	typedef vector<INT1> lnum;
-
-
-	// Read and Write
-	void print(const lnum& a){
-	    cout<<(a.empty()?0:a.back());
-	    for (int i=(int)a.size()-2; i>=0; --i)
-	        cout<<setfill('0')<<setw(POW)<<a[i];
-	    cout<<endl;
-	}
-	lnum get(const string& s){
-	    lnum a;
-	    for (int i=(int)s.length(); i > 0; i -= POW){
-	        if (i < POW)
-	            a.push_back((INT1)stoll(s.substr (0, i)));
-	        else
-	            a.push_back((INT1)stoll(s.substr (i-POW, POW)));
-	    }
-	    while (a.size() > 1 && a.back() == 0)
-	        a.pop_back();
-	    return a;
-	}
 
 
 	// Random
@@ -86,6 +65,30 @@ namespace bigInt{
 	}
 	void absolute(lnum& a){
 		if (!a.empty()) a.back() = abs(a.back());
+	}
+
+
+	// Read and Write
+	void print(const lnum& a){
+	    cout<<(a.empty()?0:a.back());
+	    for (int i=(int)a.size()-2; i>=0; --i)
+	        cout<<setfill('0')<<setw(POW)<<a[i];
+	    cout<<endl;
+	}
+	lnum get(const string& s){
+		lnum a; bool neg = false;
+	    for (int i=(int)s.length(); i > 0; i -= POW){
+	        if (i < POW){
+				if (i == 1 && s[0] == '-') neg = true;
+	            else a.push_back((INT1)stoll(s.substr(0, i)));
+			}
+	        else
+	            a.push_back((INT1)stoll(s.substr(i-POW, POW)));
+	    }
+	    while (a.size() > 1 && a.back() == 0)
+	        a.pop_back();
+		if (neg) negate(a);
+	    return a;
 	}
 
 
@@ -115,7 +118,9 @@ namespace bigInt{
 
 
 	// Multiplication
-	lnum mulSimple(const lnum& a, const lnum& b){
+	lnum mulSimple(lnum& a, lnum& b){
+		int sgn1 = sgn(a), sgn2 = sgn(b);
+		absolute(a); absolute(b);
 	    lnum c (a.size()+b.size());
 	    for (size_t i=0; i < a.size(); ++i)
 	        for (INT1 j = 0, carry = 0; j < b.size() || carry; ++j) {
@@ -125,6 +130,9 @@ namespace bigInt{
 	        }
 	    while (c.size() > 1 && c.back() == 0)
 	        c.pop_back();
+		if (sgn1) negate(a);
+		if (sgn2) negate(b);
+		if (sgn1*sgn2 == -1) negate(c);
 	    return c;
 	}
 	lnum convertBase(const lnum& a, int old_digits, int new_digits){
@@ -163,11 +171,13 @@ namespace bigInt{
 		for (int i = 0; i < res.size(); ++i) res[i] = imag(out[i]) / (4 * n);
 		return res;
 	}
-	lnum mulFFT(const lnum& a, const lnum& b){
-		int sign = sgn(a)*sgn(b);
+	lnum mulFFT(lnum& a, lnum& b){
+		int sgn1 = sgn(a), sgn2 = sgn(b);
+		absolute(a); absolute(b);
 		lnum a2 = convertBase(a, POW, POW2);
 		lnum b2 = convertBase(b, POW, POW2);
-		absolute(a2); absolute(b2);
+		if (sgn1) negate(a);
+		if (sgn2) negate(b);
 		vd temp = conv(a2, b2);
 		lnum c(a2.size() + b2.size());
 		INT2 carry = 0, x, i;
@@ -178,7 +188,7 @@ namespace bigInt{
 		}
 		if (carry) c[i] = carry;
 		c = convertBase(c, POW2, POW);
-		if (sign == -1) negate(c);
+		if (sgn1*sgn2 == -1) negate(c);
 		return c;
 	}
 	lnum operator*(lnum& a, lnum& b){
