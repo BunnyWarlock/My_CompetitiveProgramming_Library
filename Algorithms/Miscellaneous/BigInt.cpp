@@ -305,7 +305,7 @@ namespace bigInt{
 		}
 		return ret;
 	}
-	lnum get(bitset<MAXB>& b){
+	lnum toBigInt(bitset<MAXB>& b){
 		lnum ret = {0};
         for (int i = MAXB/POW3*POW3, j = 0; i < MAXB; ++i, ++j)
             ret[0] = ret[0]|((INT1)b[i]<<j);
@@ -327,9 +327,15 @@ int main(){
 	int n;
 	lnum a, b;
 	cin>>n;
+	bool temp = true;
 	while(n--){
 		cin>>a>>b;
 		a = a*b;
+		if (temp){
+			bitset<MAXB> b = toBits(a);
+			a = toBigInt(b);
+			temp = false;
+		}
 		cout<<a<<endl;
 	}
 
