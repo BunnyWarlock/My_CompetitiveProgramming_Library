@@ -42,6 +42,22 @@ void fft(vector<C>& a) {
 		}
 }
 
+template<class T>
+vd conv(const vector<T>& a, const vector<T>& b) {
+	if (a.empty() || b.empty()) return {};
+	vd res(a.size() + b.size() - 1);
+	int L = 32 - __builtin_clz(res.size()), n = 1 << L;
+	vector<C> in(n), out(n);
+	copy(a.begin(), a.end(), begin(in));
+	for (int i = 0; i < b.size(); ++i) in[i].imag(b[i]);
+	fft(in);
+	for (C& x : in) x *= x;
+	for (int i = 0; i < n; ++i) out[i] = in[-i & (n - 1)] - conj(in[i]);
+	fft(out);
+	for (int i = 0; i < res.size(); ++i) res[i] = imag(out[i]) / (4 * n);
+	return res;
+}
+
 namespace bigInt{
 	using INT1 = ll; // or int
 	using INT2 = __int128_t; // or ll
@@ -274,20 +290,6 @@ namespace bigInt{
 		res.push_back((INT1)cur);
 		while (!res.empty() && !res.back())
 			res.pop_back();
-		return res;
-	}
-	vd conv(const lnum& a, const lnum& b) {
-		if (a.empty() || b.empty()) return {};
-		vd res(a.size() + b.size() - 1);
-		int L = 32 - __builtin_clz(res.size()), n = 1 << L;
-		vector<C> in(n), out(n);
-		copy(a.begin(), a.end(), begin(in));
-		for (int i = 0; i < b.size(); ++i) in[i].imag(b[i]);
-		fft(in);
-		for (C& x : in) x *= x;
-		for (int i = 0; i < n; ++i) out[i] = in[-i & (n - 1)] - conj(in[i]);
-		fft(out);
-		for (int i = 0; i < res.size(); ++i) res[i] = imag(out[i]) / (4 * n);
 		return res;
 	}
 	lnum mulFFT(lnum& a, lnum& b){
