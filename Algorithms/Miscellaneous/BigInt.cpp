@@ -2,6 +2,7 @@
 // Tested here:
 // https://dmoj.ca/problem/fibonacci2
 // https://judge.yosupo.jp/problem/multiplication_of_big_integers
+// https://judge.yosupo.jp/problem/addition_of_big_integers
 
 #include <iostream>
 #include <complex>
@@ -9,7 +10,6 @@
 #include <string>
 #include <vector>
 #include <iomanip>
-#include <cmath>
 using namespace std;
 #define endl '\n'
 
@@ -60,59 +60,121 @@ namespace bigInt{
 		if (a.empty()) return 0;
 		return (a.back() < 0)? -1: 1;
 	}
-	void negate(lnum& a){
+	void neg(lnum& a){
 		if (!a.empty()) a.back() *= -1;
 	}
 	void absolute(lnum& a){
-		if (!a.empty()) a.back() = abs(a.back());
+		if (!a.empty()) a.back() *= sgn(a);
+	}
+	void trim(lnum& a){
+		while (!a.empty() && !a.back())
+		    a.pop_back();
+	}
+
+
+	// Comparison
+	bool operator>(const lnum& a, const lnum& b){
+		if (sgn(a) != sgn(b)) return sgn(a) > sgn(b);
+		int sign = sgn(a);
+		if (sign == 0) return false;
+		if (a.size() != b.size())
+			return a.size()*sign > b.size()*sign;
+		for (int i = (int)a.size()-1; i >= 0; --i)
+			if (a[i] != b[i]) return a[i]*sign > b[i]*sign;
+		return false;
+	}
+	bool operator<(const lnum& a, const lnum& b){
+		return (b > a);
+	}
+	bool operator>=(const lnum& a, const lnum& b){
+		return !(a < b);
+	}
+	bool operator<=(const lnum& a, const lnum& b){
+		return !(a > b);
+	}
+	bool operator==(const lnum& a, const lnum& b){
+		if (sgn(a) != sgn(b)) return false;
+		if (sgn(a) == 0) return true;
+		if (a.size() != b.size()) return false;
+		for (int i = 0; i < a.size(); ++i)
+			if (a[i] != b[i])
+				return false;
+		return true;
+	}
+	bool operator!=(const lnum& a, const lnum& b){
+		return !(a == b);
 	}
 
 
 	// Read and Write
-	void print(const lnum& a){
-	    cout<<(a.empty()?0:a.back());
+	ostream& operator<<(ostream& out, const lnum& a){
+	    out<<(a.empty()?0:a.back());
 	    for (int i=(int)a.size()-2; i>=0; --i)
-	        cout<<setfill('0')<<setw(POW)<<a[i];
-	    cout<<endl;
+	        out<<setfill('0')<<setw(POW)<<a[i];
+		return out;
 	}
-	lnum get(const string& s){
-		lnum a; bool neg = false;
+	lnum toBigInt(const string& s){
+		lnum a; bool negated = false;
 	    for (int i=(int)s.length(); i > 0; i -= POW){
 	        if (i < POW){
-				if (i == 1 && s[0] == '-') neg = true;
+				if (i == 1 && s[0] == '-') negated = true;
 	            else a.push_back((INT1)stoll(s.substr(0, i)));
 			}
 	        else
 	            a.push_back((INT1)stoll(s.substr(i-POW, POW)));
 	    }
-	    while (a.size() > 1 && a.back() == 0)
-	        a.pop_back();
-		if (neg) negate(a);
+	    trim(a);
+		if (negated) neg(a);
 	    return a;
+	}
+	istream& operator>>(istream& in, lnum& a){
+		string s;
+		in>>s;
+		a = toBigInt(s);
+		return in;
 	}
 
 
 	// Addition and Subtraction
-	lnum operator+(lnum a, const lnum& b){
+	void add(lnum& a, const lnum& b){
 	    INT1 carry = 0;
-	    for (size_t i=0; i < max(a.size(),b.size()) || carry; ++i) {
-	        if (i == a.size())
-	            a.push_back (0);
-	        a[i] += carry + (i < b.size() ? b[i] : 0);
-	        carry = a[i] >= base;
+	    for (size_t i = 0; i < max(a.size(), b.size()) || carry; ++i){
+	        if (i == a.size()) a.push_back(0);
+	        a[i] += carry + ((i < b.size())? b[i]: 0);
+	        carry = (a[i] >= base);
 	        if (carry)  a[i] -= base;
 	    }
-	    return a;
 	}
-	lnum operator-(lnum a, const lnum& b){
+	void sub(lnum& a, lnum& b){
+		bool swapped = (b > a);
+		if (swapped) swap(a, b);
 		INT1 carry = 0;
-		for (size_t i=0; i < b.size() || carry; ++i) {
-		    a[i] -= carry + (i < b.size() ? b[i] : 0);
-		    carry = a[i] < 0;
+		for (size_t i = 0; i < b.size() || carry; ++i){
+		    a[i] -= carry + ((i < b.size())? b[i]: 0);
+		    carry = (a[i] < 0);
 		    if (carry)  a[i] += base;
 		}
-		while (a.size() > 1 && a.back() == 0)
-		    a.pop_back();
+		trim(a);
+		if (swapped) neg(a);
+	}
+	lnum operator+(lnum a, lnum& b){
+		int sgn1 = sgn(a), sgn2 = sgn(b);
+		absolute(a); absolute(b);
+		if (sgn1 == sgn2 || sgn1 == 0 || sgn2 == 0){
+			add(a, b);
+			if (sgn1 == -1 || sgn2 == -1) neg(a);
+		}
+		else{
+			sub(a, b);
+			if (sgn1 == -1) neg(a);
+		}
+		if (sgn2) neg(b);
+		return a;
+	}
+	lnum operator-(lnum a, lnum& b){
+		neg(b);
+		a = a + b;
+		neg(b);
 		return a;
 	}
 
@@ -128,11 +190,10 @@ namespace bigInt{
 	            c[i+j] = INT1(cur % base);
 	            carry = INT1(cur / base);
 	        }
-	    while (c.size() > 1 && c.back() == 0)
-	        c.pop_back();
-		if (sgn1) negate(a);
-		if (sgn2) negate(b);
-		if (sgn1*sgn2 == -1) negate(c);
+	    trim(c);
+		if (sgn1 == -1) neg(a);
+		if (sgn2 == -1) neg(b);
+		if (sgn1*sgn2 == -1) neg(c);
 	    return c;
 	}
 	lnum convertBase(const lnum& a, int old_digits, int new_digits){
@@ -176,8 +237,8 @@ namespace bigInt{
 		absolute(a); absolute(b);
 		lnum a2 = convertBase(a, POW, POW2);
 		lnum b2 = convertBase(b, POW, POW2);
-		if (sgn1) negate(a);
-		if (sgn2) negate(b);
+		if (sgn1 == -1) neg(a);
+		if (sgn2 == -1) neg(b);
 		vd temp = conv(a2, b2);
 		lnum c(a2.size() + b2.size());
 		INT2 carry = 0, x, i;
@@ -188,7 +249,7 @@ namespace bigInt{
 		}
 		if (carry) c[i] = carry;
 		c = convertBase(c, POW2, POW);
-		if (sgn1*sgn2 == -1) negate(c);
+		if (sgn1*sgn2 == -1) neg(c);
 		return c;
 	}
 	lnum operator*(lnum& a, lnum& b){
@@ -196,7 +257,7 @@ namespace bigInt{
 			return mulSimple(a, b);
 		return mulFFT(a, b);
 	}
-	lnum operator*(lnum a, const ll b){
+	lnum operator*(lnum a, const ll b){ // b < base
 	    INT1 carry = 0;
 	    for (size_t i = 0; i < a.size() || carry; ++i) {
 	        if (i == a.size())
@@ -205,22 +266,20 @@ namespace bigInt{
 	        a[i] = INT1(cur % base);
 	        carry = INT1(cur / base);
 	    }
-	    while (a.size() > 1 && a.back() == 0)
-	        a.pop_back();
+	    trim(a);
 	    return a;
 	}
 
 
 	// Division
-	lnum operator/(lnum a, const ll b){
+	lnum operator/(lnum a, const ll b){ // b < base
 	    INT1 carry = 0;
 	    for (int i = (int)a.size()-1; i >= 0; --i) {
 	        INT2 cur = a[i] + (INT2)carry * base;
 	        a[i] = INT1(cur / b);
 	        carry = INT1(cur % b);
 	    }
-	    while (a.size() > 1 && a.back() == 0)
-	        a.pop_back();
+	    trim(a);
 	    return a;
 	}
 
@@ -266,14 +325,12 @@ int main(){
     cin.exceptions(cin.failbit);
 
 	int n;
-	string l1, l2;
+	lnum a, b;
 	cin>>n;
 	while(n--){
-		cin>>l1>>l2;
-		lnum a = get(l1);
-		lnum b = get(l2);
+		cin>>a>>b;
 		a = a*b;
-		print(a);
+		cout<<a<<endl;
 	}
 
     return 0;
