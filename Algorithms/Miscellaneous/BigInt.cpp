@@ -242,7 +242,7 @@ namespace bigInt{
 			sub(a, b);
 			if (sgn1 == -1) neg(a);
 		}
-		if (sgn2) neg(b);
+		if (sgn2 == -1) neg(b);
 		return a;
 	}
 	lnum operator-(lnum a, lnum& b){
