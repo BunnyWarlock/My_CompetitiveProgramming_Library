@@ -9,11 +9,11 @@
 using namespace std;
 #define endl '\n'
 
-vector<int> zFunc(string s){
-  vector<int> z(s.length());
-  for (int i = 1, l = 0, r = 0; i < s.length(); ++i){
-    if (i < r) z[i] = min(r-i, z[i-l]);
-    for(; s[z[i]]==s[i+z[i]]; ++z[i]);
+vector<int> zFunc(const string &s){
+  vector<int> z(s.size());
+  for (int i = 1, l = 0, r = 0; i < s.size(); ++i){
+    z[i] = (i < r) * min(r-i, z[i-l]);
+    for(; i+z[i] < s.size() && s[z[i]] == s[i+z[i]]; ++z[i]);
     if (i+z[i] > r)
       l = i, r = i+z[i];
   }
