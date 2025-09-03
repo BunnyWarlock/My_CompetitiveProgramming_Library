@@ -1,7 +1,6 @@
 // Author: Sahil Yasar
 // Tested here:
 // https://open.kattis.com/problems/stringmatching
-// https://vjudge.net/problem/UVA-10712
 
 #include <iostream>
 #include <vector>
@@ -38,18 +37,26 @@ vector<int> match(string &txt, string &pat){
 }
 
 // Useful for some string DP
-vector<vector<int>> kmp(string &s){
-    vector<int> lps = pi(s);
-    vector<vector<int>> ret(s.size(), vector<int>(10, 0));
-    for (int i = 0; i < s.size(); ++i)
-        for (int j = '0'; j <= '9'; ++j){
-            int k = i;
-            while(k > 0){
-                if (s[k] == j) break;
-                k = lps[k-1];
-            }
-            ret[i][j-'0'] = k+(s[k] == j);
+vector<vector<int>> kmp(string &s, vector<int> &lps){
+    vector<vector<int>> ret(1, vector<int>(128, 0));
+    ++ret[0][s[0]];
+    for (int i = 1; i < s.size(); ++i){
+        ret.push_back(ret[lps[i-1]]);
+        ret.back()[s[i]] = i+1;
+    }
+    return ret;
+}
+
+vector<int> match2(string &txt, string &pat){
+    vector<int> ret, lps = pi(pat);
+    vector<vector<int>> k = kmp(pat, lps);
+    for (int i = 0, j = 0; i < txt.size(); ++i){
+        j = k[j][txt[i]];
+        if (j == pat.size()){
+            ret.push_back(i-j+1);
+            j = lps[j-1];
         }
+    }
     return ret;
 }
 
@@ -59,7 +66,7 @@ int main(){
 
     string a, b;
     while(getline(cin, a) && getline(cin, b)){
-      vector<int> ans = match(b, a);
+      vector<int> ans = match2(b, a);
       for (auto& x: ans)
         cout<<x<<" ";
       cout<<endl;
