@@ -37,7 +37,9 @@ vector<int> match(string &txt, string &pat){
 }
 
 // Useful for some string DP
-vector<vector<int>> kmp(string &s, vector<int> &lps){
+vector<vector<int>> automaton(string s){
+    s += '#';
+    vector<int> lps = pi(s);
     vector<vector<int>> ret(1, vector<int>(128, 0));
     ++ret[0][s[0]];
     for (int i = 1; i < s.size(); ++i){
@@ -48,15 +50,11 @@ vector<vector<int>> kmp(string &s, vector<int> &lps){
 }
 
 vector<int> match2(string &txt, string &pat){
-    vector<int> ret, lps = pi(pat);
-    vector<vector<int>> k = kmp(pat, lps);
-    for (int i = 0, j = 0; i < txt.size(); ++i){
-        j = k[j][txt[i]];
-        if (j == pat.size()){
+    vector<vector<int>> k = automaton(pat);
+    vector<int> ret;
+    for (int i = 0, j = 0; i < txt.size(); ++i)
+        if (j = k[j][txt[i]], j == pat.size())
             ret.push_back(i-j+1);
-            j = lps[j-1];
-        }
-    }
     return ret;
 }
 
@@ -66,10 +64,10 @@ int main(){
 
     string a, b;
     while(getline(cin, a) && getline(cin, b)){
-      vector<int> ans = match2(b, a);
-      for (auto& x: ans)
-        cout<<x<<" ";
-      cout<<endl;
+        vector<int> ans = match2(b, a);
+        for (auto& x: ans)
+            cout<<x<<" ";
+        cout<<endl;
     }
 
     return 0;
