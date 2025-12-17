@@ -11,10 +11,10 @@ using namespace std;
 #define f first
 #define s second
 
-typedef long long ll;
+typedef int64_t ll;
 typedef pair<ll, ll> pll;
 
-int quad(ll x, ll y){
+inline int quad(ll x, ll y){
     if (x == 0 & y == 0) return 0;
     if (x > 0 && y >= 0) return 1;
     if (x <= 0 && y > 0) return 2;
@@ -22,12 +22,12 @@ int quad(ll x, ll y){
     return 4;
 }
 
-bool cmp(pll a, pll b){
+inline bool cmp(pll a, pll b){
     int q1 = quad(a.f, a.s), q2 = quad(b.f, b.s);
     if (q1 != q2) return (q1 < q2);
     if (a.s*b.f == b.s*a.f)
         return (a.f*a.f + a.s*a.s <  b.f*b.f + b.s*b.s);
-    return (q1&1)^(abs(a.s*b.f) > abs(b.s*a.f));
+    return (a.s*b.f < b.s*a.f);
 }
 
 int main(){
